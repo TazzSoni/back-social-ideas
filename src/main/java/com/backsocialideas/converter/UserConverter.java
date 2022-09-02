@@ -22,6 +22,7 @@ public class UserConverter {
         return UserEntity.builder()
                 .email(inDTO.getEmail())
                 .name(inDTO.getName())
+                .password(inDTO.getPassword())
                 .build();
     }
 }
