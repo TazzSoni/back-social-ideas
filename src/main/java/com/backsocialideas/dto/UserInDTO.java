@@ -15,5 +15,7 @@ public class UserInDTO {
     private String name;
     @NotBlank(message = "The email could not be null or empty.")
     private String email;
+    @NotBlank(message = "The password could not be null or empty.")
+    private String password;
 
 }

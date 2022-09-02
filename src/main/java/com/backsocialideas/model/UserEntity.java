@@ -4,6 +4,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.List;
 
 @Getter
 @Setter
@@ -25,6 +26,22 @@ public class UserEntity implements Serializable {
     private String name;
     @Column(name = "email")
     private String email;
+    @Column(name = "password")
+    private String password;
+    @Column(name = "level")
+    private int level;
+    @Column(name = "teacher")
+    private boolean teacher;
+
+    @OneToMany(fetch = FetchType.LAZY, orphanRemoval = true, cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "oid_version", updatable = false)
+    private List<CommentEntity> comments;
+
+    @OneToMany(fetch = FetchType.LAZY, orphanRemoval = true, cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "oid_version", updatable = false)
+    private List<PostEntity> posts;
+
+
 
 
 
