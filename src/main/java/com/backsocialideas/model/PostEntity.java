@@ -1,5 +1,7 @@
 package com.backsocialideas.model;
 
+import com.backsocialideas.dto.enums.Stage;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
@@ -25,7 +27,11 @@ public class PostEntity implements Serializable {
     @Column(name = "des_post")
     private String post;
 
+    @Column(name = "des_stage")
+    private Stage stage;
+
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonIgnore
     @JoinColumn(name = "oid_version", referencedColumnName = "oid_version", updatable = false)
     private UserEntity user;
 

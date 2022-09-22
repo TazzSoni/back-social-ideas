@@ -1,5 +1,6 @@
 package com.backsocialideas.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
@@ -33,16 +34,11 @@ public class UserEntity implements Serializable {
     @Column(name = "teacher")
     private boolean teacher;
 
-    @OneToMany(fetch = FetchType.LAZY, orphanRemoval = true, cascade = CascadeType.PERSIST)
-    @JoinColumn(name = "oid_version", updatable = false)
+    @OneToMany
+    @JoinColumn(name = "oid_version")
     private List<CommentEntity> comments;
 
-    @OneToMany(fetch = FetchType.LAZY, orphanRemoval = true, cascade = CascadeType.PERSIST)
-    @JoinColumn(name = "oid_version", updatable = false)
+    @OneToMany
+    @JoinColumn(name = "oid_version")
     private List<PostEntity> posts;
-
-
-
-
-
 }

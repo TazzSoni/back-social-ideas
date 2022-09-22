@@ -11,9 +11,8 @@ import java.util.List;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserOutDTO {
+public class UserUpdateDTO {
 
-    private Long id;
     private String name;
     private String email;
     private String password;

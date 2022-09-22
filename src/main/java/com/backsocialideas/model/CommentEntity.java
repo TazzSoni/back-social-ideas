@@ -1,5 +1,6 @@
 package com.backsocialideas.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
@@ -24,11 +25,12 @@ public class CommentEntity implements Serializable {
     @Column(name = "des_name")
     private String comment;
 
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinColumn(name = "oid_version", referencedColumnName = "oid_version", updatable = false)
+    @ManyToOne
+    @JsonIgnore
+    @JoinColumn(name = "oid_version", referencedColumnName = "oid_version")
     private UserEntity user;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "oid_version_comment", updatable = false)
+    @OneToOne
+    @JoinColumn(name = "oid_version_comment")
     private RateEntity rating;
 }
