@@ -35,7 +35,7 @@ public class PostEntity implements Serializable {
     @JoinColumn(name = "oid_version", referencedColumnName = "oid_version")
     private UserEntity user;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "oid_version_post")
-    private RateEntity rating;
+//    @OneToOne(fetch = FetchType.LAZY)
+//    @JoinColumn(name = "oid_version_post")
+//    private RateEntity rating;
 }

@@ -28,7 +28,7 @@ public class Handler {
         service.update(converter.converterUserUpdateDTOToEntity(id, userUpdateDTO));
     }
 
-    public List<UserEntity> getAll() {
-        return service.getAll();
+    public List<UserOutDTO> getAll() {
+        return converter.listUserEntityToListOutDTO(service.getAll());
     }
 }

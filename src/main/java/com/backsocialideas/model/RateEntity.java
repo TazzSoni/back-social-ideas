@@ -10,9 +10,9 @@ import java.io.Serializable;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity
-@Table(name ="rate")
-@SequenceGenerator(name = "rate_seq", sequenceName = "rate_oid_version", allocationSize = 1)
+//@Entity
+//@Table(name ="rate")
+//@SequenceGenerator(name = "rate_seq", sequenceName = "rate_oid_version", allocationSize = 1)
 public class RateEntity implements Serializable {
 
     static final long serialVersionUID = 1L;
@@ -28,11 +28,11 @@ public class RateEntity implements Serializable {
     @Column(name = "dislike")
     private int dislike;
 
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinColumn(name = "oid_version_rate", referencedColumnName = "oid_version_rate", updatable = false)
-    private CommentEntity comment;
-
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinColumn(name = "oid_version_rate", referencedColumnName = "oid_version_rate", updatable = false)
-    private PostEntity post;
+//    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+//    @JoinColumn(name = "oid_version_rate", referencedColumnName = "oid_version_rate", updatable = false)
+//    private CommentEntity comment;
+//
+//    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+//    @JoinColumn(name = "oid_version_rate", referencedColumnName = "oid_version_rate", updatable = false)
+//    private PostEntity post;
 }

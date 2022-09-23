@@ -34,7 +34,7 @@ public class Controller {
     }
 
     @GetMapping("/user")
-    public ResponseEntity<List<UserEntity>> getAll(){
+    public ResponseEntity<List<UserOutDTO>> getAll(){
         return new ResponseEntity<>(handler.getAll(), HttpStatus.OK);
     }
 }
