@@ -25,12 +25,12 @@ public class CommentEntity implements Serializable {
     @Column(name = "des_name")
     private String comment;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonIgnore
     @JoinColumn(name = "oid_version", referencedColumnName = "oid_version")
     private UserEntity user;
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "oid_version_comment")
     private RateEntity rating;
 }

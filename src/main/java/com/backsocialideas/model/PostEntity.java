@@ -32,10 +32,10 @@ public class PostEntity implements Serializable {
 
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonIgnore
-    @JoinColumn(name = "oid_version", referencedColumnName = "oid_version", updatable = false)
+    @JoinColumn(name = "oid_version", referencedColumnName = "oid_version")
     private UserEntity user;
 
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "oid_version_post", updatable = false)
+    @JoinColumn(name = "oid_version_post")
     private RateEntity rating;
 }

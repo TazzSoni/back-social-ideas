@@ -28,11 +28,11 @@ public class RateEntity implements Serializable {
     @Column(name = "dislike")
     private int dislike;
 
-//    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-//    @JoinColumn(name = "oid_version_rate", referencedColumnName = "oid_version_rate", updatable = false)
-//    private CommentEntity comment;
-//
-//    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-//    @JoinColumn(name = "oid_version_rate", referencedColumnName = "oid_version_rate", updatable = false)
-//    private PostEntity post;
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name = "oid_version_rate", referencedColumnName = "oid_version_rate", updatable = false)
+    private CommentEntity comment;
+
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name = "oid_version_rate", referencedColumnName = "oid_version_rate", updatable = false)
+    private PostEntity post;
 }
