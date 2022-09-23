@@ -35,12 +35,10 @@ public class UserEntity implements Serializable {
     private boolean teacher;
 
     @OneToMany(fetch = FetchType.LAZY)
-    @JsonIgnore
     @JoinColumn(name = "oid_version")
     private List<CommentEntity> comments;
 
     @OneToMany(fetch = FetchType.LAZY)
-    @JsonIgnore
     @JoinColumn(name = "oid_version")
     private List<PostEntity> posts;
 }

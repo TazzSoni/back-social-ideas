@@ -14,13 +14,13 @@ import java.io.Serializable;
 @AllArgsConstructor
 @Entity
 @Table(name ="post")
-@SequenceGenerator(name = "post_seq", sequenceName = "post_oid_version", allocationSize = 1)
+@SequenceGenerator(name = "post_seq", sequenceName = "seq_post_oid_version", allocationSize = 1)
 public class PostEntity implements Serializable {
 
     static final long serialVersionUID = 1L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "rate_seq")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "post_seq")
     @Column(name = "oid_version_post", nullable = false)
     private Long id;
 
@@ -31,11 +31,10 @@ public class PostEntity implements Serializable {
     private Stage stage;
 
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JsonIgnore
     @JoinColumn(name = "oid_version", referencedColumnName = "oid_version")
     private UserEntity user;
 
-//    @OneToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name = "oid_version_post")
-//    private RateEntity rating;
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "oid_version_post")
+    private RateEntity rating;
 }

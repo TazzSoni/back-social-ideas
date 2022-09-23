@@ -13,7 +13,7 @@ import java.io.Serializable;
 @AllArgsConstructor
 @Entity
 @Table(name ="comment")
-@SequenceGenerator(name = "comment_seq", sequenceName = "comment_oid_version", allocationSize = 1)
+@SequenceGenerator(name = "comment_seq", sequenceName = "seq_comment_oid_version", allocationSize = 1)
 public class CommentEntity implements Serializable {
 
     static final long serialVersionUID = 1L;
@@ -26,11 +26,10 @@ public class CommentEntity implements Serializable {
     private String comment;
 
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JsonIgnore
     @JoinColumn(name = "oid_version", referencedColumnName = "oid_version")
     private UserEntity user;
 
-//    @OneToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name = "oid_version_comment")
-//    private RateEntity rating;
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "oid_version_comment")
+    private RateEntity rating;
 }
