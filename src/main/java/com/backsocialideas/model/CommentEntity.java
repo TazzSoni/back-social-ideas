@@ -5,6 +5,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.List;
 
 @Getter
 @Setter
@@ -28,6 +29,10 @@ public class CommentEntity implements Serializable {
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "oid_version", referencedColumnName = "oid_version")
     private UserEntity user;
+
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name = "oid_version_post", referencedColumnName = "oid_version_post")
+    private PostEntity posts;
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "oid_version_comment")

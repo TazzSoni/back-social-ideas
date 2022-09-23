@@ -6,6 +6,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.List;
 
 @Getter
 @Setter
@@ -33,6 +34,10 @@ public class PostEntity implements Serializable {
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "oid_version", referencedColumnName = "oid_version")
     private UserEntity user;
+
+    @OneToMany(fetch = FetchType.LAZY)
+    @JoinColumn(name = "oid_version_post")
+    private List<CommentEntity> comment;
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "oid_version_post")

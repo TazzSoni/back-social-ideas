@@ -10,8 +10,10 @@ import org.springframework.stereotype.Service;
 public class CommentService {
 
     private final CommentRepository repository;
+    private final PostService postService;
 
-    public CommentEntity save(CommentEntity entity){
+    public CommentEntity save(Long postId, CommentEntity entity){
+        entity.setPosts(postService.getOne(postId));
         return repository.save(entity);
     }
 }

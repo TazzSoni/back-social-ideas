@@ -1,10 +1,7 @@
 package com.backsocialideas.controller;
 
 import com.backsocialideas.controller.handler.Handler;
-import com.backsocialideas.dto.UserInDTO;
-import com.backsocialideas.dto.UserOutDTO;
-import com.backsocialideas.dto.UserUpdateDTO;
-import com.backsocialideas.model.UserEntity;
+import com.backsocialideas.dto.*;
 import io.swagger.annotations.Api;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -36,5 +33,15 @@ public class Controller {
     @GetMapping("/user")
     public ResponseEntity<List<UserOutDTO>> getAll(){
         return new ResponseEntity<>(handler.getAll(), HttpStatus.OK);
+    }
+
+    @PostMapping("comment/{id}")
+    public ResponseEntity<CommentOutDTO> createComment(@PathVariable("id") Long postId, @RequestBody CommentInDTO commentInDTO){
+        return new ResponseEntity<>(handler.createComment(postId, commentInDTO), HttpStatus.CREATED);
+    }
+
+    @PostMapping("/post/{id}")
+    public ResponseEntity<PostOutDTO> createPost(@PathVariable("id") Long ownerId, @RequestBody PostInDTO postInDTO){
+        return new ResponseEntity<>(handler.createPost(ownerId, postInDTO), HttpStatus.CREATED);
     }
 }
