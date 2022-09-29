@@ -39,7 +39,7 @@ public class Handler {
     public CommentOutDTO createComment(Long userId, Long postId, CommentInDTO commentInDTO) {
         CommentEntity entity = commentService.save(postId, converter.convertCommentInDTOToEntity(commentInDTO));
         userService.addComment(userId, entity);
-        return converter.convertCommentEntityToOutDTOWithId(postId,entity);
+        return converter.convertCommentEntityToOutDTOWithId(entity);
     }
 
     public PostOutDTO createPost(Long ownerId, PostInDTO postInDTO) {

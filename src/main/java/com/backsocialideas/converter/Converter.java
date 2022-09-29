@@ -44,10 +44,8 @@ public class Converter {
         return mapper.map(commentInDTO, CommentEntity.class);
     }
 
-    public CommentOutDTO convertCommentEntityToOutDTOWithId(Long postId, CommentEntity entity) {
-        CommentOutDTO comment = mapper.map(entity, CommentOutDTO.class);
-        comment.setPostId(postId);
-        return comment;
+    public CommentOutDTO convertCommentEntityToOutDTOWithId(CommentEntity entity) {
+        return mapper.map(entity, CommentOutDTO.class);
     }
 
     public PostEntity convertPostInDTOToEntity(PostInDTO postInDTO) {
