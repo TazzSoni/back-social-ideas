@@ -19,6 +19,6 @@ public class UserOutDTO {
     private String password;
     private int level;
     private boolean teacher;
-    private List<CommentEntity> comments;
-    private List<PostEntity> posts;
+    private List<CommentOutDTO> comments;
+    private List<PostDTO> posts;
 }

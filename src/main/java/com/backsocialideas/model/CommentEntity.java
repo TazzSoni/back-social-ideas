@@ -23,8 +23,15 @@ public class CommentEntity implements Serializable {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "comment_seq")
     @Column(name = "oid_version_comment", nullable = false)
     private Long id;
+
     @Column(name = "des_name")
     private String comment;
+
+    @Column(name = "likes")
+    private String likes;
+
+    @Column(name = "dislikes")
+    private String dislikes;
 
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "oid_version", referencedColumnName = "oid_version")
@@ -33,8 +40,4 @@ public class CommentEntity implements Serializable {
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "oid_version_post", referencedColumnName = "oid_version_post")
     private PostEntity posts;
-
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "oid_version_comment")
-    private RateEntity rating;
 }

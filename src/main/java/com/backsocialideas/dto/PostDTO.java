@@ -8,12 +8,11 @@ import lombok.*;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class PostOutDTO {
+public class PostDTO {
 
     private Long id;
-    private Long ownerId;
     private Stage stage;
-    private String post;
     private String likes;
     private String dislikes;
+    private String post;
 }

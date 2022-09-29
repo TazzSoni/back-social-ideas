@@ -9,6 +9,5 @@ import lombok.*;
 @NoArgsConstructor
 public class PostInDTO {
 
-    private Long ownerId;
     private String post;
 }

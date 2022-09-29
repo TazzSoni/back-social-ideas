@@ -11,5 +11,7 @@ public class CommentOutDTO {
 
     private Long id;
     private String comment;
+    private String likes;
+    private String dislikes;
     private Long postId;
 }

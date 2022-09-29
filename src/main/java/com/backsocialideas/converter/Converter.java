@@ -44,15 +44,35 @@ public class Converter {
         return mapper.map(commentInDTO, CommentEntity.class);
     }
 
-    public CommentOutDTO convertCommentEntityToOutDTO(CommentEntity entity) {
-        return mapper.map(entity, CommentOutDTO.class);
+    public CommentOutDTO convertCommentEntityToOutDTOWithId(Long postId, CommentEntity entity) {
+        CommentOutDTO comment = mapper.map(entity, CommentOutDTO.class);
+        comment.setPostId(postId);
+        return comment;
     }
 
     public PostEntity convertPostInDTOToEntity(PostInDTO postInDTO) {
         return mapper.map(postInDTO, PostEntity.class);
     }
 
-    public PostOutDTO convertPostEntityToOutDTO(PostEntity entity) {
-        return mapper.map(entity, PostOutDTO.class);
+    public PostOutDTO convertPostEntityToOutDTOWithUserId(Long ownerId, PostEntity entity) {
+        PostOutDTO postOutDTO = mapper.map(entity, PostOutDTO.class);
+        postOutDTO.setOwnerId(ownerId);
+        return postOutDTO;
+    }
+
+    public PostDTO  convertPostEntityToDTO(PostEntity entity) {
+        return mapper.map(entity, PostDTO.class);
+    }
+
+    public List<PostDTO> convertListPostEntityToListDTO(List<PostEntity> postsList) {
+        return postsList.stream().map(this::convertPostEntityToDTO).collect(Collectors.toList());
+    }
+
+    public List<CommentDTO> convertListCommentEntityToDTO(List<CommentEntity> commentsList) {
+        return commentsList.stream().map(this::convertCommentEntityToDTO).collect(Collectors.toList());
+    }
+
+    public CommentDTO convertCommentEntityToDTO(CommentEntity entity) {
+        return mapper.map(entity, CommentDTO.class);
     }
 }

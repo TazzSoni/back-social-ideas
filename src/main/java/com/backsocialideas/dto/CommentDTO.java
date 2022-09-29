@@ -1,6 +1,5 @@
 package com.backsocialideas.dto;
 
-import com.backsocialideas.dto.enums.Stage;
 import lombok.*;
 
 @Getter
@@ -8,12 +7,10 @@ import lombok.*;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class PostOutDTO {
+public class CommentDTO {
 
     private Long id;
-    private Long ownerId;
-    private Stage stage;
-    private String post;
+    private String comment;
     private String likes;
     private String dislikes;
 }

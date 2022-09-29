@@ -1,5 +1,6 @@
 package com.backsocialideas.service;
 
+import com.backsocialideas.model.CommentEntity;
 import com.backsocialideas.model.PostEntity;
 import com.backsocialideas.model.UserEntity;
 import com.backsocialideas.repository.UserRepository;
@@ -33,6 +34,12 @@ public class UserService {
     public void addPost(Long ownerId, PostEntity postEntity) {
         UserEntity userEntity = repository.getOne(ownerId);
         userEntity.getPosts().add(postEntity);
+        repository.save(userEntity);
+    }
+
+    public void addComment(Long ownerId, CommentEntity commentEntity) {
+        UserEntity userEntity = repository.getOne(ownerId);
+        userEntity.getComments().add(commentEntity);
         repository.save(userEntity);
     }
 }
