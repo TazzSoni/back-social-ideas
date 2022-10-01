@@ -9,6 +9,7 @@ import javax.persistence.*;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@EqualsAndHashCode
 @Entity
 @Table(name ="like_comment")
 @SequenceGenerator(name = "like_comment_seq", sequenceName = "seq_like_comment_oid_version", allocationSize = 1)
@@ -25,4 +26,8 @@ public class LikeComment {
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "oid_version_comment", referencedColumnName = "oid_version_comment")
     private CommentEntity comment;
+
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name = "oid_version", referencedColumnName = "oid_version")
+    private UserEntity user;
 }

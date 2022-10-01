@@ -41,4 +41,21 @@ public class UserEntity implements Serializable {
     @OneToMany(fetch = FetchType.LAZY)
     @JoinColumn(name = "oid_version")
     private List<PostEntity> posts;
+
+    @OneToMany(fetch = FetchType.LAZY)
+    @JoinColumn(name = "oid_version")
+    private List<LikePost> likesPost;
+
+    @OneToMany(fetch = FetchType.LAZY)
+    @JoinColumn(name = "oid_version")
+    private List<DislikePost> dislikesPost;
+
+    @OneToMany(fetch = FetchType.LAZY)
+    @JoinColumn(name = "oid_version")
+    private List<LikeComment> likesComment;
+
+    @OneToMany(fetch = FetchType.LAZY)
+    @JoinColumn(name = "oid_version")
+    private List<DislikeComment> dislikesComment;
+
 }

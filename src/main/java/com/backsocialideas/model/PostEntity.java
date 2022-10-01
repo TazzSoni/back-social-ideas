@@ -13,6 +13,7 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@EqualsAndHashCode
 @Entity
 @Table(name ="post")
 @SequenceGenerator(name = "post_seq", sequenceName = "seq_post_oid_version", allocationSize = 1)

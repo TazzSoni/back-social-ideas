@@ -2,9 +2,9 @@ package com.backsocialideas.controller.handler;
 
 import com.backsocialideas.converter.Converter;
 import com.backsocialideas.dto.*;
-import com.backsocialideas.model.CommentEntity;
-import com.backsocialideas.model.PostEntity;
+import com.backsocialideas.model.*;
 import com.backsocialideas.service.CommentService;
+import com.backsocialideas.service.LikeDislikeService;
 import com.backsocialideas.service.PostService;
 import com.backsocialideas.service.UserService;
 import javassist.NotFoundException;
@@ -23,6 +23,7 @@ public class Handler {
     private final UserService userService;
     private final CommentService commentService;
     private final PostService postService;
+    private final LikeDislikeService likeDislikeService;
 
     public UserOutDTO saveUser(UserInDTO inDTO) {
         return converter.convertUserEntityToOutDTO(userService.save(converter.convertUserInDTOToEntity(inDTO)));
@@ -56,19 +57,59 @@ public class Handler {
         return converter.convertListCommentEntityToDTO(commentService.getCommnetsByPostId(postId));
     }
 
-    public PostDTO likePost(Long id) throws NotFoundException {
-        return converter.convertPostEntityToDTO(postService.like(id));
+    public PostDTO likePost(Long userId, Long id) throws NotFoundException {
+        if (checkUserLikePost(userId, id)) {
+            return null;
+        } else {
+            return converter.convertPostEntityToDTO(postService.like(id, userId));
+        }
     }
 
-    public PostDTO dislikePost(Long id) throws NotFoundException {
-        return converter.convertPostEntityToDTO(postService.dislike(id));
+    public PostDTO dislikePost(Long userId, Long id) throws NotFoundException {
+        if (checkUserDislikePost(userId, id)) {
+            return null;
+        } else {
+            return converter.convertPostEntityToDTO(postService.dislike(id));
+        }
     }
 
-    public CommentDTO likeComment(Long id) throws NotFoundException {
-        return converter.convertCommentEntityToDTO(commentService.like(id));
+    public CommentDTO likeComment(Long userId, Long id) throws NotFoundException {
+        if (checkUserLikeComment(userId, id)) {
+            return null;
+        } else {
+            return converter.convertCommentEntityToDTO(commentService.like(id));
+        }
     }
 
-    public CommentDTO dislikeComment(Long id) throws NotFoundException {
-        return converter.convertCommentEntityToDTO(commentService.dislike(id));
+    public CommentDTO dislikeComment(Long userId, Long id) throws NotFoundException {
+        if (checkUserDislikeComment(userId, id)) {
+            return null;
+        } else {
+            return converter.convertCommentEntityToDTO(commentService.dislike(id));
+        }
+    }
+
+    private boolean checkUserLikePost(Long userId, Long postId) {
+        UserEntity user = userService.getOne(userId);
+        LikePost likePost = likeDislikeService.getLikeByPostId(postId);
+        return user.getLikesPost().stream().anyMatch(like -> like.equals(likePost));
+    }
+
+    private boolean checkUserDislikePost(Long userId, Long dislikePostId) {
+        UserEntity user = userService.getOne(userId);
+        DislikePost dislikePost = likeDislikeService.getDislikeByPostId(dislikePostId);
+        return user.getLikesPost().stream().anyMatch(like -> like.equals(dislikePost));
+    }
+
+    private boolean checkUserLikeComment(Long userId, Long likeCommentId) {
+        UserEntity user = userService.getOne(userId);
+        LikeComment likeComment = likeDislikeService.getLikeByCommentId(likeCommentId);
+        return user.getLikesPost().stream().anyMatch(like -> like.equals(likeComment));
+    }
+
+    private boolean checkUserDislikeComment(Long userId, Long dislikePostId) {
+        UserEntity user = userService.getOne(userId);
+        DislikeComment dislikeComment = likeDislikeService.getDislikeByCommentId(dislikePostId);
+        return user.getLikesPost().stream().anyMatch(like -> like.equals(dislikeComment));
     }
 }

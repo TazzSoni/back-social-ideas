@@ -35,4 +35,20 @@ public class LikeDislikeService {
     public DislikeComment saveCommentDislike(DislikeComment dislike){
         return dislikeCommentRepository.save(dislike);
     }
+
+    public LikePost getLikeByPostId(Long postId) {
+        return likePostRepository.getLikePostByPostId(postId);
+    }
+
+    public DislikePost getDislikeByPostId(Long dislikePostId) {
+        return dislikePostRepository.getOne(dislikePostId);
+    }
+
+    public LikeComment getLikeByCommentId(Long likeCommentId) {
+        return likeCommentRepository.getOne(likeCommentId);
+    }
+
+    public DislikeComment getDislikeByCommentId(Long dislikePostId) {
+        return dislikeCommentRepository.getOne(dislikePostId);
+    }
 }

@@ -57,22 +57,22 @@ public class Controller {
     }
 
     @PutMapping("/post/like/{id}")
-    public ResponseEntity<PostDTO> likePost(@PathVariable("id") Long id) throws NotFoundException {
-        return new ResponseEntity<>(handler.likePost(id), HttpStatus.OK);
+    public ResponseEntity<PostDTO> likePost(@PathVariable("id") Long id, @RequestParam Long userId) throws NotFoundException {
+        return new ResponseEntity<>(handler.likePost(userId, id), HttpStatus.OK);
     }
 
     @PutMapping("/post/dislike/{id}")
-    public ResponseEntity<PostDTO> dislikePost(@PathVariable("id") Long id) throws NotFoundException {
-        return new ResponseEntity<>(handler.dislikePost(id), HttpStatus.OK);
+    public ResponseEntity<PostDTO> dislikePost(@PathVariable("id") Long id, @RequestParam Long userId) throws NotFoundException {
+        return new ResponseEntity<>(handler.dislikePost(userId, id), HttpStatus.OK);
     }
 
     @PutMapping("/comment/like/{id}")
-    public ResponseEntity<CommentDTO> likeComment(@PathVariable("id") Long id) throws NotFoundException {
-        return new ResponseEntity<>(handler.likeComment(id), HttpStatus.OK);
+    public ResponseEntity<CommentDTO> likeComment(@PathVariable("id") Long id, @RequestParam Long userId) throws NotFoundException {
+        return new ResponseEntity<>(handler.likeComment(userId, id), HttpStatus.OK);
     }
 
     @PutMapping("/comment/dislike/{id}")
-    public ResponseEntity<CommentDTO> dislikeComment(@PathVariable("id") Long id) throws NotFoundException {
-        return new ResponseEntity<>(handler.dislikeComment(id), HttpStatus.OK);
+    public ResponseEntity<CommentDTO> dislikeComment(@PathVariable("id") Long id, @RequestParam Long userId) throws NotFoundException {
+        return new ResponseEntity<>(handler.dislikeComment(userId, id), HttpStatus.OK);
     }
 }
