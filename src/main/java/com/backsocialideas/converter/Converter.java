@@ -18,11 +18,11 @@ public class Converter {
 
     private final ModelMapper mapper;
 
-    public UserOutDTO convertUserEntityToOutDTO(UserEntity user){
+    public UserOutDTO convertUserEntityToOutDTO(UserEntity user) {
         return mapper.map(user, UserOutDTO.class);
     }
 
-    public UserEntity convertUserInDTOToEntity(UserInDTO inDTO){
+    public UserEntity convertUserInDTOToEntity(UserInDTO inDTO) {
         return UserEntity.builder()
                 .email(inDTO.getEmail())
                 .name(inDTO.getName())
@@ -31,8 +31,8 @@ public class Converter {
     }
 
     public UserEntity converterUserUpdateDTOToEntity(Long id, UserUpdateDTO userUpdateDTO) {
-                UserEntity entity = mapper.map(userUpdateDTO, UserEntity.class);
-                entity.setId(id);
+        UserEntity entity = mapper.map(userUpdateDTO, UserEntity.class);
+        entity.setId(id);
         return entity;
     }
 
@@ -45,7 +45,20 @@ public class Converter {
     }
 
     public CommentOutDTO convertCommentEntityToOutDTOWithId(CommentEntity entity) {
-        return mapper.map(entity, CommentOutDTO.class);
+        CommentOutDTO commentOutDTO = mapper.map(entity, CommentOutDTO.class);
+        setRateCommentOutDTO(commentOutDTO, entity);
+        return commentOutDTO;
+    }
+
+    private void setRateCommentOutDTO(CommentOutDTO commentOutDTO, CommentEntity entity) {
+        RateDTO rate = RateDTO.builder().build();
+        if (entity.getLikes() != null) {
+            rate.setLike(entity.getLikes().size());
+        }
+        if (entity.getDislikes() != null) {
+            rate.setDislike(entity.getDislikes().size());
+        }
+        commentOutDTO.setRate(rate);
     }
 
     public PostEntity convertPostInDTOToEntity(PostInDTO postInDTO) {
@@ -55,11 +68,36 @@ public class Converter {
     public PostOutDTO convertPostEntityToOutDTOWithUserId(Long ownerId, PostEntity entity) {
         PostOutDTO postOutDTO = mapper.map(entity, PostOutDTO.class);
         postOutDTO.setOwnerId(ownerId);
+        setRatePostOutDTo(postOutDTO, entity);
         return postOutDTO;
     }
 
-    public PostDTO  convertPostEntityToDTO(PostEntity entity) {
-        return mapper.map(entity, PostDTO.class);
+    private void setRatePostOutDTo(PostOutDTO postOutDTO, PostEntity entity) {
+        RateDTO rate = RateDTO.builder().build();
+        if (entity.getLikes() != null){
+            rate.setLike(entity.getLikes().size());
+        }
+        if (entity.getDislikes() != null) {
+            rate.setDislike(entity.getDislikes().size());
+        }
+        postOutDTO.setRate(rate);
+    }
+
+    public PostDTO convertPostEntityToDTO(PostEntity entity) {
+        PostDTO postDTO = mapper.map(entity, PostDTO.class);
+        setRatePost(postDTO, entity);
+        return postDTO;
+    }
+
+    private void setRatePost(PostDTO postDTO, PostEntity entity) {
+        RateDTO rate = RateDTO.builder().build();
+        if (entity.getLikes() != null) {
+            rate.setLike(entity.getLikes().size());
+        }
+        if (entity.getDislikes() != null) {
+            rate.setDislike(entity.getDislikes().size());
+        }
+        postDTO.setRate(rate);
     }
 
     public List<PostDTO> convertListPostEntityToListDTO(List<PostEntity> postsList) {
@@ -71,6 +109,19 @@ public class Converter {
     }
 
     public CommentDTO convertCommentEntityToDTO(CommentEntity entity) {
-        return mapper.map(entity, CommentDTO.class);
+        CommentDTO commentDTO = mapper.map(entity, CommentDTO.class);
+        setRateComment(commentDTO, entity);
+        return commentDTO;
+    }
+
+    private void setRateComment(CommentDTO commentDTO, CommentEntity entity) {
+        RateDTO rate = RateDTO.builder().build();
+        if (entity.getLikes() != null) {
+            rate.setLike(entity.getLikes().size());
+        }
+        if (entity.getDislikes() != null) {
+            rate.setDislike(entity.getDislikes().size());
+        }
+        commentDTO.setRate(rate);
     }
 }

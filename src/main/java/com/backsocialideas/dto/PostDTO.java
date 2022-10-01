@@ -3,6 +3,8 @@ package com.backsocialideas.dto;
 import com.backsocialideas.dto.enums.Stage;
 import lombok.*;
 
+import java.util.List;
+
 @Getter
 @Setter
 @Builder
@@ -12,7 +14,6 @@ public class PostDTO {
 
     private Long id;
     private Stage stage;
-    private String likes;
-    private String dislikes;
+    private RateDTO rate;
     private String post;
 }

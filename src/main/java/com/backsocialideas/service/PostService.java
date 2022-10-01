@@ -1,6 +1,8 @@
 package com.backsocialideas.service;
 
 import com.backsocialideas.dto.enums.Stage;
+import com.backsocialideas.model.DislikePost;
+import com.backsocialideas.model.LikePost;
 import com.backsocialideas.model.PostEntity;
 import com.backsocialideas.repository.PostRepository;
 import javassist.NotFoundException;
@@ -15,6 +17,7 @@ public class PostService {
 
     private final PostRepository repository;
     private final UserService userService;
+    private final LikeDislikeService likeDislikeService;
 
     public PostEntity save(Long ownerId, PostEntity entity){
         entity.setStage(Stage.POSTED);
@@ -45,22 +48,14 @@ public class PostService {
     }
 
     private void setLike(PostEntity entity) {
-        int value = 0;
-        if (entity.getLikes() != null) {
-            value = Integer.parseInt(entity.getLikes()) + 1;
-        } else {
-            value = 1;
-        }
-        entity.setLikes(value + "");
+        LikePost likePost = LikePost.builder().build();
+        likeDislikeService.savePostLike(likePost);
+        entity.getLikes().add(likePost);
     }
 
     private void setDislike(PostEntity entity) {
-        int value = 0;
-        if (entity.getDislikes() != null) {
-            value = Integer.parseInt(entity.getDislikes()) + 1;
-        } else {
-            value = 1;
-        }
-        entity.setDislikes(value + "");
+        DislikePost dislikePost = DislikePost.builder().build();
+        likeDislikeService.savePostDislike(dislikePost);
+        entity.getDislikes().add(dislikePost);
     }
 }

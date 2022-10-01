@@ -1,6 +1,8 @@
 package com.backsocialideas.service;
 
 import com.backsocialideas.model.CommentEntity;
+import com.backsocialideas.model.DislikeComment;
+import com.backsocialideas.model.LikeComment;
 import com.backsocialideas.repository.CommentRepository;
 import javassist.NotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -14,6 +16,7 @@ public class CommentService {
 
     private final CommentRepository repository;
     private final PostService postService;
+    private final LikeDislikeService likeDislikeService;
 
     public CommentEntity save(Long postId, CommentEntity entity) {
         entity.setPosts(postService.getOne(postId));
@@ -37,22 +40,14 @@ public class CommentService {
     }
 
     private void setLike(CommentEntity entity) {
-        int value = 0;
-        if (entity.getLikes() != null) {
-            value = Integer.parseInt(entity.getLikes()) + 1;
-        } else {
-            value = 1;
-        }
-        entity.setLikes(value + "");
+        LikeComment likeComment = LikeComment.builder().build();
+        likeDislikeService.saveCommentLike(likeComment);
+        entity.getLikes().add(likeComment);
     }
 
     private void setDislike(CommentEntity entity) {
-        int value = 0;
-        if (entity.getDislikes() != null) {
-            value = Integer.parseInt(entity.getDislikes()) + 1;
-        } else {
-            value = 1;
-        }
-        entity.setDislikes(value + "");
+        DislikeComment dislikeComment = DislikeComment.builder().build();
+        likeDislikeService.saveCommentDislike(dislikeComment);
+        entity.getDislikes().add(dislikeComment);
     }
 }

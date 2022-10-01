@@ -27,12 +27,6 @@ public class CommentEntity implements Serializable {
     @Column(name = "des_name")
     private String comment;
 
-    @Column(name = "likes")
-    private String likes;
-
-    @Column(name = "dislikes")
-    private String dislikes;
-
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "oid_version", referencedColumnName = "oid_version")
     private UserEntity user;
@@ -40,4 +34,12 @@ public class CommentEntity implements Serializable {
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "oid_version_post", referencedColumnName = "oid_version_post")
     private PostEntity posts;
+
+    @OneToMany(fetch = FetchType.LAZY)
+    @JoinColumn(name = "oid_version_comment")
+    private List<LikeComment> likes;
+
+    @OneToMany(fetch = FetchType.LAZY)
+    @JoinColumn(name = "oid_version_comment")
+    private List<DislikeComment> dislikes;
 }

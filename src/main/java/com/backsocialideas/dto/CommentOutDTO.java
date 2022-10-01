@@ -2,6 +2,8 @@ package com.backsocialideas.dto;
 
 import lombok.*;
 
+import java.util.List;
+
 @Getter
 @Setter
 @Builder
@@ -11,7 +13,6 @@ public class CommentOutDTO {
 
     private Long id;
     private String comment;
-    private String likes;
-    private String dislikes;
+    private RateDTO rate;
     private CommentPostDTO posts;
 }
