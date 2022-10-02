@@ -11,6 +11,8 @@ import com.backsocialideas.repository.LikePostRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class LikeDislikeService {
@@ -36,19 +38,19 @@ public class LikeDislikeService {
         return dislikeCommentRepository.save(dislike);
     }
 
-    public LikePost getLikeByPostId(Long postId) {
+    public List<LikePost> getLikeByPostId(Long postId) {
         return likePostRepository.getLikePostByPostId(postId);
     }
 
-    public DislikePost getDislikeByPostId(Long dislikePostId) {
-        return dislikePostRepository.getOne(dislikePostId);
+    public List<DislikePost> getDislikeByPostId(Long dislikePostId) {
+        return dislikePostRepository.getDislikePostByPostId(dislikePostId);
     }
 
-    public LikeComment getLikeByCommentId(Long likeCommentId) {
-        return likeCommentRepository.getOne(likeCommentId);
+    public List<LikeComment> getLikeByCommentId(Long likeCommentId) {
+        return likeCommentRepository.getLikeCommentByCommentId(likeCommentId);
     }
 
-    public DislikeComment getDislikeByCommentId(Long dislikePostId) {
-        return dislikeCommentRepository.getOne(dislikePostId);
+    public List<DislikeComment> getDislikeByCommentId(Long dislikePostId) {
+        return dislikeCommentRepository.getDislikeCommentByCommentId(dislikePostId);
     }
 }

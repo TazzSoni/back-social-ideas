@@ -4,8 +4,10 @@ import com.backsocialideas.model.LikePost;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public interface LikePostRepository extends JpaRepository<LikePost, Long> {
 
-    LikePost getLikePostByPostId(Long id);
+    List<LikePost> getLikePostByPostId(Long id);
 }

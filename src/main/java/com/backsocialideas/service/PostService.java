@@ -42,9 +42,9 @@ public class PostService {
         return repository.save(entity);
     }
 
-    public PostEntity dislike(Long id) throws NotFoundException {
+    public PostEntity dislike(Long id, Long userId) throws NotFoundException {
         PostEntity entity = repository.findById(id).orElseThrow(() -> new NotFoundException("Post não encontrado!"));
-        setDislike(entity);
+        setDislike(entity, userId);
         return repository.save(entity);
     }
 
@@ -57,9 +57,12 @@ public class PostService {
         entity.getLikes().add(likePost);
     }
 
-    private void setDislike(PostEntity entity) {
+    private void setDislike(PostEntity entity, Long userId) {
         DislikePost dislikePost = DislikePost.builder().build();
         likeDislikeService.savePostDislike(dislikePost);
+        UserEntity user = userService.getOne(userId);
+        user.getDislikesPost().add(dislikePost);
+        userService.save(user);
         entity.getDislikes().add(dislikePost);
     }
 }
