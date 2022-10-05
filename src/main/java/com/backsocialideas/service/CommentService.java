@@ -1,11 +1,11 @@
 package com.backsocialideas.service;
 
+import com.backsocialideas.exception.RecordNotFoundException;
 import com.backsocialideas.model.CommentEntity;
 import com.backsocialideas.model.DislikeComment;
 import com.backsocialideas.model.LikeComment;
 import com.backsocialideas.model.UserEntity;
 import com.backsocialideas.repository.CommentRepository;
-import javassist.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -29,14 +29,14 @@ public class CommentService {
         return repository.findByPostsId(postId);
     }
 
-    public CommentEntity like(Long id, Long userId) throws NotFoundException {
-        CommentEntity entity = repository.findById(id).orElseThrow(() -> new NotFoundException("Comentário não encontrado!"));
+    public CommentEntity like(Long id, Long userId) {
+        CommentEntity entity = repository.findById(id).orElseThrow(() -> new RecordNotFoundException("Comentário não encontrado!"));
         setLike(entity, userId);
         return repository.save(entity);
     }
 
-    public CommentEntity dislike(Long id, Long userId) throws NotFoundException {
-        CommentEntity entity = repository.findById(id).orElseThrow(() -> new NotFoundException("Comentário não encontrado!"));
+    public CommentEntity dislike(Long id, Long userId) {
+        CommentEntity entity = repository.findById(id).orElseThrow(() -> new RecordNotFoundException("Comentário não encontrado!"));
         setDislike(entity, userId);
         return repository.save(entity);
     }
@@ -57,5 +57,9 @@ public class CommentService {
         user.getDislikesComment().add(dislikeComment);
         userService.save(user);
         entity.getDislikes().add(dislikeComment);
+    }
+
+    public void deleteComment(Long id) {
+        repository.deleteById(id);
     }
 }

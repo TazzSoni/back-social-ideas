@@ -1,12 +1,12 @@
 package com.backsocialideas.service;
 
 import com.backsocialideas.dto.enums.Stage;
+import com.backsocialideas.exception.RecordNotFoundException;
 import com.backsocialideas.model.DislikePost;
 import com.backsocialideas.model.LikePost;
 import com.backsocialideas.model.PostEntity;
 import com.backsocialideas.model.UserEntity;
 import com.backsocialideas.repository.PostRepository;
-import javassist.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -28,7 +28,7 @@ public class PostService {
     }
 
     public PostEntity getOne(Long postId) {
-        return repository.getOne(postId);
+        return repository.findById(postId).orElseThrow(() -> new RecordNotFoundException("Post não encontrado!"));
     }
 
     public List<PostEntity> getPostsByUserId(Long userId) {
@@ -36,14 +36,14 @@ public class PostService {
     }
 
 
-    public PostEntity like(Long id, Long userId) throws NotFoundException {
-        PostEntity entity = repository.findById(id).orElseThrow(() -> new NotFoundException("Post não encontrado!"));
+    public PostEntity like(Long id, Long userId) {
+        PostEntity entity = repository.findById(id).orElseThrow(() -> new RecordNotFoundException("Post não encontrado!"));
         setLike(entity, userId);
         return repository.save(entity);
     }
 
-    public PostEntity dislike(Long id, Long userId) throws NotFoundException {
-        PostEntity entity = repository.findById(id).orElseThrow(() -> new NotFoundException("Post não encontrado!"));
+    public PostEntity dislike(Long id, Long userId) {
+        PostEntity entity = repository.findById(id).orElseThrow(() -> new RecordNotFoundException("Post não encontrado!"));
         setDislike(entity, userId);
         return repository.save(entity);
     }
@@ -64,5 +64,9 @@ public class PostService {
         user.getDislikesPost().add(dislikePost);
         userService.save(user);
         entity.getDislikes().add(dislikePost);
+    }
+
+    public void deletePost(Long id) {
+        repository.deleteById(id);
     }
 }

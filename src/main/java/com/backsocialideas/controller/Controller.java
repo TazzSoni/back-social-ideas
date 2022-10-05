@@ -3,7 +3,9 @@ package com.backsocialideas.controller;
 import com.backsocialideas.controller.handler.Handler;
 import com.backsocialideas.dto.*;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ResponseHeader;
 import javassist.NotFoundException;
+import javassist.tools.web.BadHttpRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -74,5 +76,33 @@ public class Controller {
     @PutMapping("/comment/dislike/{id}")
     public ResponseEntity<CommentDTO> dislikeComment(@PathVariable("id") Long id, @RequestParam Long userId) throws NotFoundException {
         return new ResponseEntity<>(handler.dislikeComment(userId, id), HttpStatus.OK);
+    }
+
+    @DeleteMapping("/user/{id}")
+    @ResponseStatus(value = HttpStatus.NO_CONTENT)
+    public void deleteUser(@PathVariable("id") Long id){
+        handler.deleteUser(id);
+    }
+
+    @DeleteMapping("/post/{id}")
+    @ResponseStatus(value = HttpStatus.NO_CONTENT)
+    public void deletePost(@PathVariable("id") Long id){
+        handler.deletePost(id);
+    }
+
+    @DeleteMapping("/comment/{id}")
+    @ResponseStatus(value = HttpStatus.NO_CONTENT)
+    public void deleteComment(@PathVariable("id") Long id){
+        handler.deleteComment(id);
+    }
+
+    @PatchMapping("/user/teacher/{id}")
+    public ResponseEntity<UserOutDTO> setTeacher(@PathVariable("id") Long id){
+        return new ResponseEntity<>(handler.setTeacher(id), HttpStatus.OK);
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<UserOutDTO> login(@RequestBody LoginDTO login) throws NotFoundException, BadHttpRequest {
+        return new ResponseEntity<>(handler.login(login), HttpStatus.OK);
     }
 }

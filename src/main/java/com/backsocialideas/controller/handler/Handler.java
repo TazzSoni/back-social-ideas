@@ -8,9 +8,11 @@ import com.backsocialideas.service.LikeDislikeService;
 import com.backsocialideas.service.PostService;
 import com.backsocialideas.service.UserService;
 import javassist.NotFoundException;
+import javassist.tools.web.BadHttpRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -25,6 +27,7 @@ public class Handler {
     private final PostService postService;
     private final LikeDislikeService likeDislikeService;
 
+    @Transactional
     public UserOutDTO saveUser(UserInDTO inDTO) {
         return converter.convertUserEntityToOutDTO(userService.save(converter.convertUserInDTOToEntity(inDTO)));
     }
@@ -37,12 +40,14 @@ public class Handler {
         return converter.listUserEntityToListOutDTO(userService.getAll());
     }
 
+    @Transactional
     public CommentOutDTO createComment(Long userId, Long postId, CommentInDTO commentInDTO) {
         CommentEntity entity = commentService.save(postId, converter.convertCommentInDTOToEntity(commentInDTO));
         userService.addComment(userId, entity);
         return converter.convertCommentEntityToOutDTOWithId(entity);
     }
 
+    @Transactional
     public PostOutDTO createPost(Long ownerId, PostInDTO postInDTO) {
         PostEntity postEntity = postService.save(ownerId, converter.convertPostInDTOToEntity(postInDTO));
         userService.addPost(ownerId, postEntity);
@@ -212,5 +217,28 @@ public class Handler {
             }
         }
         if(dislikeToDelete != null) user.getDislikesComment().remove(dislikeToDelete);
+    }
+
+    @Transactional
+    public void deleteUser(Long id) {
+       userService.deleteUser(id);
+    }
+
+    @Transactional
+    public void deleteComment(Long id) {
+        commentService.deleteComment(id);
+    }
+
+    @Transactional
+    public void deletePost(Long id) {
+        postService.deletePost(id);
+    }
+
+    public UserOutDTO setTeacher(Long id) {
+        return converter.convertUserEntityToOutDTO(userService.setTeacher(id));
+    }
+
+    public UserOutDTO login(LoginDTO login) throws NotFoundException, BadHttpRequest {
+        return converter.convertUserEntityToOutDTO(userService.login(login));
     }
 }

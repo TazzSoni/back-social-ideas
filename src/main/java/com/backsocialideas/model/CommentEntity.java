@@ -27,11 +27,11 @@ public class CommentEntity implements Serializable {
     @Column(name = "des_name")
     private String comment;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "oid_version", referencedColumnName = "oid_version")
     private UserEntity user;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "oid_version_post", referencedColumnName = "oid_version_post")
     private PostEntity posts;
 

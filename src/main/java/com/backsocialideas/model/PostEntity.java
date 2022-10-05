@@ -35,11 +35,11 @@ public class PostEntity implements Serializable {
     @Column(name = "des_stage")
     private Stage stage;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "oid_version", referencedColumnName = "oid_version")
     private UserEntity user;
 
-    @OneToMany(fetch = FetchType.LAZY)
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "oid_version_post")
     private List<CommentEntity> comment;
 
