@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -47,7 +48,9 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
     public ResponseEntity<Object> handleHttpMessageNotReadable(HttpMessageNotReadableException ex,
                                                                HttpHeaders headers, HttpStatus status, WebRequest request) {
 
-        ErrorResponse error = new ErrorResponse(BAD_REQUEST, List.of(ex.getMessage()));
+        List<String> message = new ArrayList<>();
+        message.add(ex.getMessage());
+        ErrorResponse error = new ErrorResponse(BAD_REQUEST, message);
         return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
     }
 
@@ -59,7 +62,9 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(BadRequestException.class)
     public final ResponseEntity<ErrorResponse> handleBadRequestException(BadRequestException ex, WebRequest request) {
-        ErrorResponse error = new ErrorResponse(BAD_REQUEST, List.of(ex.getMessage()));
+        List<String> message = new ArrayList<>();
+        message.add(ex.getMessage());
+        ErrorResponse error = new ErrorResponse(BAD_REQUEST, message);
         return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
     }
 
