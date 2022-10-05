@@ -23,11 +23,11 @@ public class DislikePost {
     private Long id;
 
 
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "oid_version_post", referencedColumnName = "oid_version_post")
     private PostEntity post;
 
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "oid_version", referencedColumnName = "oid_version")
     private UserEntity user;
 }

@@ -9,5 +9,6 @@ import lombok.*;
 @NoArgsConstructor
 public class PostInDTO {
 
+    private String titulo;
     private String post;
 }

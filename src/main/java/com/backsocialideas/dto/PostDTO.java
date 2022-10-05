@@ -13,6 +13,7 @@ import java.util.List;
 public class PostDTO {
 
     private Long id;
+    private String titulo;
     private Stage stage;
     private RateDTO rate;
     private String post;

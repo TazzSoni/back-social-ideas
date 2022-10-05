@@ -26,13 +26,16 @@ public class PostEntity implements Serializable {
     @Column(name = "oid_version_post", nullable = false)
     private Long id;
 
+    @Column(name = "des_title")
+    private String titulo;
+
     @Column(name = "des_post")
     private String post;
 
     @Column(name = "des_stage")
     private Stage stage;
 
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "oid_version", referencedColumnName = "oid_version")
     private UserEntity user;
 

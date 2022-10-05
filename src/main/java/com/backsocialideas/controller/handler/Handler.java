@@ -60,6 +60,9 @@ public class Handler {
     public PostDTO likePost(Long userId, Long id) throws NotFoundException {
         if (checkUserLikePost(userId, id)) {
             return null;
+        } else if (checkUserDislikePost(userId, id)) {
+            deleteDislikePost(userId, id);
+            return converter.convertPostEntityToDTO(postService.like(id, userId));
         } else {
             return converter.convertPostEntityToDTO(postService.like(id, userId));
         }
@@ -68,6 +71,9 @@ public class Handler {
     public PostDTO dislikePost(Long userId, Long id) throws NotFoundException {
         if (checkUserDislikePost(userId, id)) {
             return null;
+        } else if (checkUserLikePost(userId, id)) {
+            deleteLikePost(userId, id);
+            return converter.convertPostEntityToDTO(postService.dislike(id, userId));
         } else {
             return converter.convertPostEntityToDTO(postService.dislike(id, userId));
         }
@@ -76,6 +82,9 @@ public class Handler {
     public CommentDTO likeComment(Long userId, Long id) throws NotFoundException {
         if (checkUserLikeComment(userId, id)) {
             return null;
+        } else if (checkUserDislikeComment(userId, id)) {
+            deleteDislikeComment(userId, id);
+            return converter.convertCommentEntityToDTO(commentService.like(id, userId));
         } else {
             return converter.convertCommentEntityToDTO(commentService.like(id, userId));
         }
@@ -84,6 +93,9 @@ public class Handler {
     public CommentDTO dislikeComment(Long userId, Long id) throws NotFoundException {
         if (checkUserDislikeComment(userId, id)) {
             return null;
+        } else if (checkUserLikeComment(userId, id)) {
+            deleteLikeComment(userId, id);
+            return converter.convertCommentEntityToDTO(commentService.dislike(id, userId));
         } else {
             return converter.convertCommentEntityToDTO(commentService.dislike(id, userId));
         }
@@ -92,9 +104,10 @@ public class Handler {
     private boolean checkUserLikePost(Long userId, Long postId) {
         UserEntity user = userService.getOne(userId);
         List<LikePost> likePosts = likeDislikeService.getLikeByPostId(postId);
-        for(LikePost likesUser :user.getLikesPost()){
-            for(LikePost likesBancoo : likePosts){
-                if((likesBancoo.getId() == likesUser.getId()) && (likesBancoo.getUser().getId() == likesUser.getUser().getId())){
+        List<DislikePost> dislikePosts = likeDislikeService.getDislikeByPostId(postId);
+        for (LikePost likesUser : user.getLikesPost()) {
+            for (LikePost likesBanco : likePosts) {
+                if ((likesBanco.getId() == likesUser.getId()) && (likesBanco.getUser().getId() == likesUser.getUser().getId())) {
                     return true;
                 }
             }
@@ -105,9 +118,9 @@ public class Handler {
     private boolean checkUserDislikePost(Long userId, Long dislikePostId) {
         UserEntity user = userService.getOne(userId);
         List<DislikePost> dislikePosts = likeDislikeService.getDislikeByPostId(dislikePostId);
-        for(DislikePost dislikesUser :user.getDislikesPost()){
-            for(DislikePost dislikesBanco : dislikePosts){
-                if((dislikesBanco.getId() == dislikesUser.getId()) && (dislikesBanco.getUser().getId() == dislikesUser.getUser().getId())){
+        for (DislikePost dislikesUser : user.getDislikesPost()) {
+            for (DislikePost dislikesBanco : dislikePosts) {
+                if ((dislikesBanco.getId() == dislikesUser.getId()) && (dislikesBanco.getUser().getId() == dislikesUser.getUser().getId())) {
                     return true;
                 }
             }
@@ -118,9 +131,9 @@ public class Handler {
     private boolean checkUserLikeComment(Long userId, Long likeCommentId) {
         UserEntity user = userService.getOne(userId);
         List<LikeComment> likeComments = likeDislikeService.getLikeByCommentId(likeCommentId);
-        for(LikeComment likeComment :user.getLikesComment()){
-            for(LikeComment likesBancoo : likeComments){
-                if((likesBancoo.getId() == likeComment.getId()) && (likesBancoo.getUser().getId() == likeComment.getUser().getId())){
+        for (LikeComment likeComment : user.getLikesComment()) {
+            for (LikeComment likesBancoo : likeComments) {
+                if ((likesBancoo.getId() == likeComment.getId()) && (likesBancoo.getUser().getId() == likeComment.getUser().getId())) {
                     return true;
                 }
             }
@@ -131,13 +144,73 @@ public class Handler {
     private boolean checkUserDislikeComment(Long userId, Long dislikePostId) {
         UserEntity user = userService.getOne(userId);
         List<DislikeComment> dislikeComments = likeDislikeService.getDislikeByCommentId(dislikePostId);
-        for(DislikeComment dislikeComment :user.getDislikesComment()){
-            for(DislikeComment dislikesBanco : dislikeComments){
-                if((dislikesBanco.getId() == dislikeComment.getId()) && (dislikesBanco.getUser().getId() == dislikeComment.getUser().getId())){
+        for (DislikeComment dislikeComment : user.getDislikesComment()) {
+            for (DislikeComment dislikesBanco : dislikeComments) {
+                if ((dislikesBanco.getId() == dislikeComment.getId()) && (dislikesBanco.getUser().getId() == dislikeComment.getUser().getId())) {
                     return true;
                 }
             }
         }
         return false;
+    }
+
+    private void deleteLikePost(Long userId, Long id) {
+        UserEntity user = userService.getOne(userId);
+        List<LikePost> likePosts = likeDislikeService.getLikeByPostId(id);
+        LikePost likeToDelete = null;
+        for (LikePost likesUser : user.getLikesPost()) {
+            for (LikePost likesBanco : likePosts) {
+                if ((likesBanco.getId() == likesUser.getId()) && (likesBanco.getUser().getId() == likesUser.getUser().getId())) {
+                    likeToDelete = likesBanco;
+                    likeDislikeService.deleteLikePost(likesBanco.getId());
+                }
+            }
+        }
+        if(likeToDelete != null) user.getLikesPost().remove(likeToDelete);
+    }
+
+    private void deleteDislikePost(Long userId, Long id) {
+        UserEntity user = userService.getOne(userId);
+        List<DislikePost> dislikePosts = likeDislikeService.getDislikeByPostId(id);
+        DislikePost dislikeToDelete = null;
+        for (DislikePost dislikesUser : user.getDislikesPost()) {
+            for (DislikePost dislikesBanco : dislikePosts) {
+                if ((dislikesBanco.getId() == dislikesUser.getId()) && (dislikesBanco.getUser().getId() == dislikesUser.getUser().getId())) {
+                    dislikeToDelete = dislikesBanco;
+                    likeDislikeService.deleteDislikePost(dislikesBanco.getId());
+                }
+            }
+        }
+        if(dislikeToDelete != null) user.getDislikesPost().remove(dislikeToDelete);
+    }
+
+    private void deleteLikeComment(Long userId, Long id) {
+        UserEntity user = userService.getOne(userId);
+        List<LikeComment> likeComments = likeDislikeService.getLikeByCommentId(id);
+        LikeComment likeToDelete = null;
+        for (LikeComment likeComment : user.getLikesComment()) {
+            for (LikeComment likesBanco : likeComments) {
+                if ((likesBanco.getId() == likeComment.getId()) && (likesBanco.getUser().getId() == likeComment.getUser().getId())) {
+                    likeToDelete = likesBanco;
+                    likeDislikeService.deleteLikeComment(likesBanco);
+                }
+            }
+        }
+        if(likeToDelete != null) user.getLikesComment().remove(likeToDelete);
+    }
+
+    private void deleteDislikeComment(Long userId, Long id) {
+        UserEntity user = userService.getOne(userId);
+        List<DislikeComment> dislikeComments = likeDislikeService.getDislikeByCommentId(id);
+        DislikeComment dislikeToDelete = null;
+        for (DislikeComment dislikeComment : user.getDislikesComment()) {
+            for (DislikeComment dislikesBanco : dislikeComments) {
+                if ((dislikesBanco.getId() == dislikeComment.getId()) && (dislikesBanco.getUser().getId() == dislikeComment.getUser().getId())) {
+                    dislikeToDelete = dislikesBanco;
+                    likeDislikeService.deleteDislikeComment(dislikesBanco);
+                }
+            }
+        }
+        if(dislikeToDelete != null) user.getDislikesComment().remove(dislikeToDelete);
     }
 }

@@ -53,4 +53,20 @@ public class LikeDislikeService {
     public List<DislikeComment> getDislikeByCommentId(Long dislikePostId) {
         return dislikeCommentRepository.getDislikeCommentByCommentId(dislikePostId);
     }
+
+    public void deleteDislikePost(Long id) {
+        dislikePostRepository.deleteById(id);
+    }
+
+    public void deleteLikePost(Long id) {
+        likePostRepository.deleteById(id);
+    }
+
+    public void deleteLikeComment(LikeComment likesBanco) {
+        likeCommentRepository.delete(likesBanco);
+    }
+
+    public void deleteDislikeComment(DislikeComment likesBanco) {
+        dislikeCommentRepository.delete(likesBanco);
+    }
 }
