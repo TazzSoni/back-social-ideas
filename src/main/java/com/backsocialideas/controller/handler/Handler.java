@@ -52,7 +52,7 @@ public class Handler {
     public PostOutDTO createPost(Long ownerId, PostInDTO postInDTO) {
         PostEntity postEntity = postService.save(ownerId, converter.convertPostInDTOToEntity(postInDTO));
         userService.addPost(ownerId, postEntity);
-        return converter.convertPostEntityToOutDTOWithUserId(ownerId, postEntity);
+        return converter.convertPostEntityToOutDTOWithUserId(userService.getOne(ownerId), postEntity);
     }
 
     public List<PostDTO> getPostsByuser(Long userId) {

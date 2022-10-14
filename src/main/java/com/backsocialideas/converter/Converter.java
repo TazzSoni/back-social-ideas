@@ -68,11 +68,15 @@ public class Converter {
         return mapper.map(postInDTO, PostEntity.class);
     }
 
-    public PostOutDTO convertPostEntityToOutDTOWithUserId(Long ownerId, PostEntity entity) {
+    public PostOutDTO convertPostEntityToOutDTOWithUserId(UserEntity owner, PostEntity entity) {
         PostOutDTO postOutDTO = mapper.map(entity, PostOutDTO.class);
-        postOutDTO.setOwnerId(ownerId);
+        postOutDTO.setUser(convertUserEntityToPostUserDTO(owner));
         setRatePostOutDTo(postOutDTO, entity);
         return postOutDTO;
+    }
+
+    private PostUserDTO convertUserEntityToPostUserDTO(UserEntity owner) {
+        return mapper.map(owner, PostUserDTO.class);
     }
 
     private void setRatePostOutDTo(PostOutDTO postOutDTO, PostEntity entity) {
