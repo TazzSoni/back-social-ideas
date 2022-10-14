@@ -137,7 +137,12 @@ public class Converter {
     }
 
     private PostOutDTO convertPostEntityToOutDTO(PostEntity entity) {
-        return mapper.map(entity, PostOutDTO.class);
+        PostOutDTO outDTO = mapper.map(entity, PostOutDTO.class);
+        outDTO.setRate(RateDTO.builder()
+                .like(entity.getLikes().size())
+                .dislike(entity.getDislikes().size())
+                .build());
+        return outDTO;
     }
 
     public Page<PostOutDTO> convertPagePostEntityToOutDTO(List<PostEntity> listEntity, int page, int size) {
