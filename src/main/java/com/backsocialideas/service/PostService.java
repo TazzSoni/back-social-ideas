@@ -69,4 +69,8 @@ public class PostService {
     public void deletePost(Long id) {
         repository.deleteById(id);
     }
+
+    public List<PostEntity> gelAll() {
+        return repository.findAll();
+    }
 }

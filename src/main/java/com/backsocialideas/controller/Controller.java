@@ -48,6 +48,11 @@ public class Controller {
         return new ResponseEntity<>(handler.createPost(ownerId, postInDTO), HttpStatus.CREATED);
     }
 
+    @GetMapping("/post")
+    public ResponseEntity<List<PostOutDTO>> postsGetAll(){
+        return new ResponseEntity<>(handler.postsGetAll(), HttpStatus.OK);
+    }
+
     @GetMapping("/post/{userId}")
     public ResponseEntity<List<PostDTO>> getPostsByUser(@PathVariable("userId") Long userId){
         return new ResponseEntity<>(handler.getPostsByuser(userId), HttpStatus.OK);

@@ -241,4 +241,8 @@ public class Handler {
     public UserOutDTO login(LoginDTO login) throws NotFoundException, BadHttpRequest {
         return converter.convertUserEntityToOutDTO(userService.login(login));
     }
+
+    public List<PostOutDTO> postsGetAll() {
+        return converter.convertPostsEntityToOutDTOList(postService.gelAll());
+    }
 }

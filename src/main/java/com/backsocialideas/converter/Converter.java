@@ -124,4 +124,12 @@ public class Converter {
         }
         commentDTO.setRate(rate);
     }
+
+    public List<PostOutDTO> convertPostsEntityToOutDTOList(List<PostEntity> entityList) {
+        return entityList.stream().map(this::convertPostEntityToOutDTO).collect(Collectors.toList());
+    }
+
+    private PostOutDTO convertPostEntityToOutDTO(PostEntity entity) {
+        return mapper.map(entity, PostOutDTO.class);
+    }
 }
