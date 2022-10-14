@@ -43,11 +43,11 @@ public class PostEntity implements Serializable {
     @JoinColumn(name = "oid_version_post")
     private List<CommentEntity> comment;
 
-    @OneToMany(fetch = FetchType.LAZY)
+    @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
     @JoinColumn(name = "oid_version_post")
     private List<LikePost> likes;
 
-    @OneToMany(fetch = FetchType.LAZY)
+    @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
     @JoinColumn(name = "oid_version_post")
     private List<DislikePost> dislikes;
 }

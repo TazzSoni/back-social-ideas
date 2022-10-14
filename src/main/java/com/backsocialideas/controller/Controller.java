@@ -70,12 +70,12 @@ public class Controller {
     }
 
     @PutMapping("/post/like/{id}")
-    public ResponseEntity<PostDTO> likePost(@PathVariable("id") Long id, @RequestParam Long userId) throws NotFoundException {
+    public ResponseEntity<PostOutDTO> likePost(@PathVariable("id") Long id, @RequestParam Long userId) throws NotFoundException {
         return new ResponseEntity<>(handler.likePost(userId, id), HttpStatus.OK);
     }
 
     @PutMapping("/post/dislike/{id}")
-    public ResponseEntity<PostDTO> dislikePost(@PathVariable("id") Long id, @RequestParam Long userId) throws NotFoundException {
+    public ResponseEntity<PostOutDTO> dislikePost(@PathVariable("id") Long id, @RequestParam Long userId) throws NotFoundException {
         return new ResponseEntity<>(handler.dislikePost(userId, id), HttpStatus.OK);
     }
 

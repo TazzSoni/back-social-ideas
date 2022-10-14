@@ -19,6 +19,10 @@ public class UserService {
 
     private final UserRepository repository;
 
+    public static void deleteDisLikePost(UserEntity user, Long id) {
+
+    }
+
     public UserEntity save(UserEntity entity){
         return repository.save(entity);
     }

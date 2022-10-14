@@ -62,4 +62,8 @@ public class CommentService {
     public void deleteComment(Long id) {
         repository.deleteById(id);
     }
+
+    public CommentEntity getOne(Long id) {
+        return repository.getOne(id);
+    }
 }

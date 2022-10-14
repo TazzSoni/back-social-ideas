@@ -136,7 +136,7 @@ public class Converter {
         return entityList.stream().map(this::convertPostEntityToOutDTO).collect(Collectors.toList());
     }
 
-    private PostOutDTO convertPostEntityToOutDTO(PostEntity entity) {
+    public PostOutDTO convertPostEntityToOutDTO(PostEntity entity) {
         PostOutDTO outDTO = mapper.map(entity, PostOutDTO.class);
         outDTO.setRate(RateDTO.builder()
                 .like(entity.getLikes().size())

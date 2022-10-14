@@ -63,25 +63,25 @@ public class Handler {
         return converter.convertListCommentEntityToDTO(commentService.getCommnetsByPostId(postId));
     }
 
-    public PostDTO likePost(Long userId, Long id) throws NotFoundException {
+    public PostOutDTO likePost(Long userId, Long id) throws NotFoundException {
         if (checkUserLikePost(userId, id)) {
             return null;
         } else if (checkUserDislikePost(userId, id)) {
             deleteDislikePost(userId, id);
-            return converter.convertPostEntityToDTO(postService.like(id, userId));
+            return converter.convertPostEntityToOutDTO(postService.like(id, userId));
         } else {
-            return converter.convertPostEntityToDTO(postService.like(id, userId));
+            return converter.convertPostEntityToOutDTO(postService.like(id, userId));
         }
     }
 
-    public PostDTO dislikePost(Long userId, Long id) throws NotFoundException {
+    public PostOutDTO dislikePost(Long userId, Long id) throws NotFoundException {
         if (checkUserDislikePost(userId, id)) {
             return null;
         } else if (checkUserLikePost(userId, id)) {
             deleteLikePost(userId, id);
-            return converter.convertPostEntityToDTO(postService.dislike(id, userId));
+            return converter.convertPostEntityToOutDTO(postService.dislike(id, userId));
         } else {
-            return converter.convertPostEntityToDTO(postService.dislike(id, userId));
+            return converter.convertPostEntityToOutDTO(postService.dislike(id, userId));
         }
     }
 
@@ -162,6 +162,7 @@ public class Handler {
 
     private void deleteLikePost(Long userId, Long id) {
         UserEntity user = userService.getOne(userId);
+        PostEntity post = postService.getOne(id);
         List<LikePost> likePosts = likeDislikeService.getLikeByPostId(id);
         LikePost likeToDelete = null;
         for (LikePost likesUser : user.getLikesPost()) {
@@ -172,11 +173,15 @@ public class Handler {
                 }
             }
         }
-        if(likeToDelete != null) user.getLikesPost().remove(likeToDelete);
+        if(likeToDelete != null){
+            user.getLikesPost().remove(likeToDelete);
+            post.getLikes().remove(likeToDelete);
+        }
     }
 
     private void deleteDislikePost(Long userId, Long id) {
         UserEntity user = userService.getOne(userId);
+        PostEntity post = postService.getOne(id);
         List<DislikePost> dislikePosts = likeDislikeService.getDislikeByPostId(id);
         DislikePost dislikeToDelete = null;
         for (DislikePost dislikesUser : user.getDislikesPost()) {
@@ -187,11 +192,15 @@ public class Handler {
                 }
             }
         }
-        if(dislikeToDelete != null) user.getDislikesPost().remove(dislikeToDelete);
+        if(dislikeToDelete != null){
+            user.getDislikesPost().remove(dislikeToDelete);
+            post.getDislikes().remove(dislikeToDelete);
+        }
     }
 
     private void deleteLikeComment(Long userId, Long id) {
         UserEntity user = userService.getOne(userId);
+        CommentEntity comment = commentService.getOne(id);
         List<LikeComment> likeComments = likeDislikeService.getLikeByCommentId(id);
         LikeComment likeToDelete = null;
         for (LikeComment likeComment : user.getLikesComment()) {
@@ -202,11 +211,15 @@ public class Handler {
                 }
             }
         }
-        if(likeToDelete != null) user.getLikesComment().remove(likeToDelete);
+        if(likeToDelete != null) {
+            user.getLikesComment().remove(likeToDelete);
+            comment.getLikes().remove(likeToDelete);
+        }
     }
 
     private void deleteDislikeComment(Long userId, Long id) {
         UserEntity user = userService.getOne(userId);
+        CommentEntity comment = commentService.getOne(id);
         List<DislikeComment> dislikeComments = likeDislikeService.getDislikeByCommentId(id);
         DislikeComment dislikeToDelete = null;
         for (DislikeComment dislikeComment : user.getDislikesComment()) {
@@ -217,7 +230,10 @@ public class Handler {
                 }
             }
         }
-        if(dislikeToDelete != null) user.getDislikesComment().remove(dislikeToDelete);
+        if(dislikeToDelete != null) {
+            user.getDislikesComment().remove(dislikeToDelete);
+            comment.getDislikes().remove(dislikeToDelete);
+        }
     }
 
     @Transactional
