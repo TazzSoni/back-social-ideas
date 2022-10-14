@@ -11,6 +11,7 @@ import javassist.NotFoundException;
 import javassist.tools.web.BadHttpRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -244,5 +245,9 @@ public class Handler {
 
     public List<PostOutDTO> postsGetAll() {
         return converter.convertPostsEntityToOutDTOList(postService.gelAll());
+    }
+
+    public Page<PostOutDTO> postsGetAllPageable(int page, int size) {
+        return converter.convertPagePostEntityToOutDTO(postService.getAllPageable(), page, size);
     }
 }

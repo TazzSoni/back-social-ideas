@@ -7,6 +7,7 @@ import io.swagger.annotations.ResponseHeader;
 import javassist.NotFoundException;
 import javassist.tools.web.BadHttpRequest;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -51,6 +52,11 @@ public class Controller {
     @GetMapping("/post")
     public ResponseEntity<List<PostOutDTO>> postsGetAll(){
         return new ResponseEntity<>(handler.postsGetAll(), HttpStatus.OK);
+    }
+
+    @GetMapping("/post/pageable")
+    public ResponseEntity<Page<PostOutDTO>> postsGetAllPageable(@RequestParam int page, @RequestParam int size){
+        return new ResponseEntity<>(handler.postsGetAllPageable(page, size), HttpStatus.OK);
     }
 
     @GetMapping("/post/{userId}")

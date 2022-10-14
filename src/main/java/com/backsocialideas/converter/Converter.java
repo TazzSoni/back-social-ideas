@@ -6,6 +6,9 @@ import com.backsocialideas.model.PostEntity;
 import com.backsocialideas.model.UserEntity;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -131,5 +134,10 @@ public class Converter {
 
     private PostOutDTO convertPostEntityToOutDTO(PostEntity entity) {
         return mapper.map(entity, PostOutDTO.class);
+    }
+
+    public Page<PostOutDTO> convertPagePostEntityToOutDTO(List<PostEntity> listEntity, int page, int size) {
+
+        return new PageImpl<>(convertPostsEntityToOutDTOList(listEntity), PageRequest.of(page,size), listEntity.size());
     }
 }

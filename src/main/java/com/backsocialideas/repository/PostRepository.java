@@ -1,6 +1,7 @@
 package com.backsocialideas.repository;
 
 import com.backsocialideas.model.PostEntity;
+import org.springframework.data.domain.Page;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

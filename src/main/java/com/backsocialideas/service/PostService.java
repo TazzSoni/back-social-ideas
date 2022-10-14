@@ -1,5 +1,6 @@
 package com.backsocialideas.service;
 
+import com.backsocialideas.dto.PostDTO;
 import com.backsocialideas.dto.enums.Stage;
 import com.backsocialideas.exception.RecordNotFoundException;
 import com.backsocialideas.model.DislikePost;
@@ -8,6 +9,7 @@ import com.backsocialideas.model.PostEntity;
 import com.backsocialideas.model.UserEntity;
 import com.backsocialideas.repository.PostRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -71,6 +73,10 @@ public class PostService {
     }
 
     public List<PostEntity> gelAll() {
+        return repository.findAll();
+    }
+
+    public List<PostEntity> getAllPageable() {
         return repository.findAll();
     }
 }
