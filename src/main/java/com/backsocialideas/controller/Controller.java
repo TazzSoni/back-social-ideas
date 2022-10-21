@@ -116,4 +116,9 @@ public class Controller {
     public ResponseEntity<UserOutDTO> login(@RequestBody LoginDTO login) throws NotFoundException, BadHttpRequest {
         return new ResponseEntity<>(handler.login(login), HttpStatus.OK);
     }
+
+    @PostMapping("/post/search")
+    public ResponseEntity<Page<PostOutDTO>>  searchPost(@RequestParam String keyWord){
+        return new ResponseEntity<>(handler.searchPost(keyWord), HttpStatus.OK);
+    }
 }

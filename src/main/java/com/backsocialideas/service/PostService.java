@@ -79,4 +79,8 @@ public class PostService {
     public List<PostEntity> getAllPageable() {
         return repository.findAll();
     }
+
+    public List<PostEntity> searchPageable(String keyWord) {
+        return repository.findPostEntityByTituloLike(keyWord);
+    }
 }

@@ -3,6 +3,7 @@ package com.backsocialideas.repository;
 import com.backsocialideas.model.PostEntity;
 import org.springframework.data.domain.Page;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -14,4 +15,7 @@ public interface PostRepository extends JpaRepository<PostEntity, Long> {
     Optional<PostEntity> findById(Long id);
 
     List<PostEntity> findByUserId(Long id);
+
+    @Query("select u from PostEntity u where lower(u.titulo) like lower(:titulo)")
+    List<PostEntity> findPostEntityByTituloLike(String titulo);
 }

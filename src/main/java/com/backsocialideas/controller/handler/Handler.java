@@ -266,4 +266,8 @@ public class Handler {
     public Page<PostOutDTO> postsGetAllPageable(int page, int size) {
         return converter.convertPagePostEntityToOutDTO(postService.getAllPageable(), page, size);
     }
+
+    public Page<PostOutDTO> searchPost(String keyWord) {
+        return converter.convertPagePostEntityToOutDTO(postService.searchPageable(keyWord), 0, 100);
+    }
 }
