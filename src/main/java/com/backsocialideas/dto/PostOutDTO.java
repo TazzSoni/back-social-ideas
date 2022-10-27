@@ -15,4 +15,5 @@ public class PostOutDTO {
     private PostUserDTO user;
     private Stage stage;
     private RateDTO rate;
+    private String post;
 }
