@@ -142,6 +142,7 @@ public class Converter {
                 .like(entity.getLikes().size())
                 .dislike(entity.getDislikes().size())
                 .build());
+        outDTO.setComment(entity.getComment().stream().map(this::convertCommentEntityToDTO).collect(Collectors.toList()));
         return outDTO;
     }
 

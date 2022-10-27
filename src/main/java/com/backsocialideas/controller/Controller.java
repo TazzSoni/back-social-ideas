@@ -69,13 +69,13 @@ public class Controller {
         return new ResponseEntity<>(handler.getCommentByPost(postId), HttpStatus.OK);
     }
 
-    @PutMapping("/post/like/{id}")
-    public ResponseEntity<PostOutDTO> likePost(@PathVariable("id") Long id, @RequestParam Long userId) throws NotFoundException {
+    @PutMapping("/post/like/{postId}")
+    public ResponseEntity<PostOutDTO> likePost(@PathVariable("postId") Long id, @RequestParam Long userId) throws NotFoundException {
         return new ResponseEntity<>(handler.likePost(userId, id), HttpStatus.OK);
     }
 
-    @PutMapping("/post/dislike/{id}")
-    public ResponseEntity<PostOutDTO> dislikePost(@PathVariable("id") Long id, @RequestParam Long userId) throws NotFoundException {
+    @PutMapping("/post/dislike/{postId}")
+    public ResponseEntity<PostOutDTO> dislikePost(@PathVariable("postId") Long id, @RequestParam Long userId) throws NotFoundException {
         return new ResponseEntity<>(handler.dislikePost(userId, id), HttpStatus.OK);
     }
 
