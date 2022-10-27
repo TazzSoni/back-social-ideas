@@ -44,8 +44,8 @@ public class Controller {
         return new ResponseEntity<>(handler.createComment(userId, postId, commentInDTO), HttpStatus.CREATED);
     }
 
-    @PostMapping("/post/{id}")
-    public ResponseEntity<PostOutDTO> createPost(@PathVariable("id") Long ownerId, @RequestBody PostInDTO postInDTO){
+    @PostMapping("/post/{ownerId}")
+    public ResponseEntity<PostOutDTO> createPost(@PathVariable("ownerId") Long ownerId, @RequestBody PostInDTO postInDTO){
         return new ResponseEntity<>(handler.createPost(ownerId, postInDTO), HttpStatus.CREATED);
     }
 
