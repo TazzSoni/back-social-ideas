@@ -13,6 +13,6 @@ public class ProfileImageService {
     private final ProfileImageRepository profileImageRepository;
 
     public ProfileImageEntity getProfileImageById(Long imageId) {
-        return profileImageRepository.findById(imageId).orElseThrow(() -> new RecordNotFoundException("Post não encontrado!"));
+        return profileImageRepository.findById(imageId).orElseThrow(() -> new RecordNotFoundException("Imagem de perfil não encontrada!"));
     }
 }
