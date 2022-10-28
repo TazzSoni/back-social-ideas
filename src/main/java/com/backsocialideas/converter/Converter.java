@@ -27,7 +27,7 @@ public class Converter {
 
     public UserOutDTO convertUserEntityToOutDTO(UserEntity user) {
         UserOutDTO outDTO = mapper.map(user, UserOutDTO.class);
-        outDTO.setIdProfileImage(String.valueOf(user.getProfileImageEntity().getId()));
+        outDTO.setIdProfileImage((user.getProfileImageEntity() == null) ? null : String.valueOf(user.getProfileImageEntity().getId()));
         return outDTO;
     }
 
@@ -36,17 +36,23 @@ public class Converter {
                 .email(inDTO.getEmail())
                 .name(inDTO.getName())
                 .password(inDTO.getPassword())
-                .profileImageEntity(setProfileImage(inDTO.getProfileImage()))
+                .profileImageEntity(
+                        (inDTO.getProfileImage() == null)? null :setProfileImage(inDTO.getProfileImage())
+                )
                 .build();
     }
 
     private ProfileImageEntity setProfileImage(MultipartFile profileImage) throws IOException {
-        return ProfileImageEntity.builder()
-        .name(StringUtils.cleanPath(profileImage.getOriginalFilename()))
-        .contentType(profileImage.getContentType())
-        .data(profileImage.getBytes())
-        .size(profileImage.getSize())
-                .build();
+        if(profileImage == null){
+            return null;
+        }else{
+            return ProfileImageEntity.builder()
+                    .name(StringUtils.cleanPath(profileImage.getOriginalFilename()))
+                    .contentType(profileImage.getContentType())
+                    .data(profileImage.getBytes())
+                    .size(profileImage.getSize())
+                    .build();
+        }
     }
 
     public UserEntity converterUserUpdateDTOToEntity(Long id, UserUpdateDTO userUpdateDTO) {
