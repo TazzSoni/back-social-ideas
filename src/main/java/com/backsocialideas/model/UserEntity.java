@@ -25,7 +25,7 @@ public class UserEntity implements Serializable {
     private Long id;
     @Column(name = "des_name")
     private String name;
-    @Column(name = "email")
+    @Column(name = "email", unique = true)
     private String email;
     @Column(name = "password")
     private String password;

@@ -2,10 +2,12 @@ package com.backsocialideas.controller;
 
 import com.backsocialideas.controller.handler.Handler;
 import com.backsocialideas.dto.*;
+import com.backsocialideas.exception.BadRequestException;
 import io.swagger.annotations.Api;
 import javassist.NotFoundException;
 import javassist.tools.web.BadHttpRequest;
 import lombok.RequiredArgsConstructor;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -27,7 +29,13 @@ public class Controller {
 
     @PostMapping(path = "/user", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
     public ResponseEntity<UserOutDTO> saveUser(@ModelAttribute UserInDTO inDTO) throws IOException {
-        return new ResponseEntity<>(handler.saveUser(inDTO), HttpStatus.CREATED);
+        try {
+            return new ResponseEntity<>(handler.saveUser(inDTO), HttpStatus.CREATED);
+        }catch (DataIntegrityViolationException ex){
+            throw new BadRequestException(ex.getCause().getCause().getLocalizedMessage());
+        }catch (Exception ex){
+            throw new BadRequestException(ex.getLocalizedMessage());
+        }
     }
 
     @GetMapping("/user/image/{imageId}")
