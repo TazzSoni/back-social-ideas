@@ -1,5 +1,6 @@
 package com.backsocialideas.service;
 
+import com.backsocialideas.dto.PostInDTO;
 import com.backsocialideas.dto.enums.Stage;
 import com.backsocialideas.exception.RecordNotFoundException;
 import com.backsocialideas.model.DislikePost;
@@ -80,5 +81,25 @@ public class PostService {
 
     public List<PostEntity> searchPageable(String keyWord) {
         return repository.findPostEntityByTituloLike(keyWord);
+    }
+
+
+    public PostEntity update(Long postId, PostInDTO postUpdateDTO) {
+        PostEntity postEntity = repository.getOne(postId);
+        if(postUpdateDTO.getPost() != null) {
+            postEntity.setPost(postUpdateDTO.getPost());
+        }
+        if(postUpdateDTO.getTitulo() != null){
+            postEntity.setTitulo(postUpdateDTO.getTitulo());
+        }
+        return repository.save(postEntity);
+    }
+
+    public PostEntity updateStatus(Long postId, Stage stage) {
+        PostEntity postEntity = repository.getOne(postId);
+
+        postEntity.setStage(stage);
+
+        return repository.save(postEntity);
     }
 }

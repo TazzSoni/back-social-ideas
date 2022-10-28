@@ -2,6 +2,7 @@ package com.backsocialideas.controller.handler;
 
 import com.backsocialideas.converter.Converter;
 import com.backsocialideas.dto.*;
+import com.backsocialideas.dto.enums.Stage;
 import com.backsocialideas.model.*;
 import com.backsocialideas.service.*;
 import javassist.NotFoundException;
@@ -283,5 +284,13 @@ public class Handler {
         header.set("Content-Disposition", "attachment; filename=" + fileEntity.getName());
 
         return new ResponseEntity<>(fileEntity.getData(), header, HttpStatus.OK);
+    }
+
+    public PostOutDTO updatePost(Long postId, PostInDTO postUpdateDTO) {
+        return converter.convertPostEntityToOutDTO(postService.update(postId, postUpdateDTO));
+    }
+
+    public PostOutDTO updateStatusPost(Long postId, Stage stage) {
+        return converter.convertPostEntityToOutDTO(postService.updateStatus(postId, stage));
     }
 }
