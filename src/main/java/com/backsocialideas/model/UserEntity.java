@@ -34,6 +34,9 @@ public class UserEntity implements Serializable {
     @Column(name = "teacher")
     private boolean teacher;
 
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private ProfileImageEntity profileImageEntity;
+
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "oid_version")
     private List<CommentEntity> comments;

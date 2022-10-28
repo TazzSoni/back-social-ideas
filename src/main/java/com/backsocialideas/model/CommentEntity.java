@@ -24,7 +24,7 @@ public class CommentEntity implements Serializable {
     @Column(name = "oid_version_comment", nullable = false)
     private Long id;
 
-    @Column(name = "des_name")
+    @Column(name = "des_name", columnDefinition="TEXT")
     private String comment;
 
     @ManyToOne

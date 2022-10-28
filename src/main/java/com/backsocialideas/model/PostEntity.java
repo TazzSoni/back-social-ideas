@@ -29,7 +29,7 @@ public class PostEntity implements Serializable {
     @Column(name = "des_title")
     private String titulo;
 
-    @Column(name = "des_post")
+    @Column(name = "des_post", columnDefinition="TEXT")
     private String post;
 
     @Column(name = "des_stage")

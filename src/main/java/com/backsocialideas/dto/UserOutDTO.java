@@ -1,9 +1,8 @@
 package com.backsocialideas.dto;
 
-import com.backsocialideas.model.CommentEntity;
-import com.backsocialideas.model.PostEntity;
 import lombok.*;
 
+import java.io.InputStream;
 import java.util.List;
 
 @Getter
@@ -19,6 +18,7 @@ public class UserOutDTO {
     private String password;
     private int level;
     private boolean teacher;
+    private String idProfileImage;
     private List<CommentOutDTO> comments;
     private List<PostDTO> posts;
 }

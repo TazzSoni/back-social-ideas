@@ -6,7 +6,6 @@ import com.backsocialideas.model.CommentEntity;
 import com.backsocialideas.model.PostEntity;
 import com.backsocialideas.model.UserEntity;
 import com.backsocialideas.repository.UserRepository;
-import javassist.NotFoundException;
 import javassist.tools.web.BadHttpRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

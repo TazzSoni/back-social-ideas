@@ -3,18 +3,20 @@ package com.backsocialideas.controller.handler;
 import com.backsocialideas.converter.Converter;
 import com.backsocialideas.dto.*;
 import com.backsocialideas.model.*;
-import com.backsocialideas.service.CommentService;
-import com.backsocialideas.service.LikeDislikeService;
-import com.backsocialideas.service.PostService;
-import com.backsocialideas.service.UserService;
+import com.backsocialideas.service.*;
 import javassist.NotFoundException;
 import javassist.tools.web.BadHttpRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.IOException;
 import java.util.List;
 
 @Component
@@ -27,9 +29,10 @@ public class Handler {
     private final CommentService commentService;
     private final PostService postService;
     private final LikeDislikeService likeDislikeService;
+    private final ProfileImageService profileImageService;
 
     @Transactional
-    public UserOutDTO saveUser(UserInDTO inDTO) {
+    public UserOutDTO saveUser(UserInDTO inDTO) throws IOException {
         return converter.convertUserEntityToOutDTO(userService.save(converter.convertUserInDTOToEntity(inDTO)));
     }
 
@@ -173,7 +176,7 @@ public class Handler {
                 }
             }
         }
-        if(likeToDelete != null){
+        if (likeToDelete != null) {
             user.getLikesPost().remove(likeToDelete);
             post.getLikes().remove(likeToDelete);
         }
@@ -192,7 +195,7 @@ public class Handler {
                 }
             }
         }
-        if(dislikeToDelete != null){
+        if (dislikeToDelete != null) {
             user.getDislikesPost().remove(dislikeToDelete);
             post.getDislikes().remove(dislikeToDelete);
         }
@@ -211,7 +214,7 @@ public class Handler {
                 }
             }
         }
-        if(likeToDelete != null) {
+        if (likeToDelete != null) {
             user.getLikesComment().remove(likeToDelete);
             comment.getLikes().remove(likeToDelete);
         }
@@ -230,7 +233,7 @@ public class Handler {
                 }
             }
         }
-        if(dislikeToDelete != null) {
+        if (dislikeToDelete != null) {
             user.getDislikesComment().remove(dislikeToDelete);
             comment.getDislikes().remove(dislikeToDelete);
         }
@@ -238,7 +241,7 @@ public class Handler {
 
     @Transactional
     public void deleteUser(Long id) {
-       userService.deleteUser(id);
+        userService.deleteUser(id);
     }
 
     @Transactional
@@ -269,5 +272,16 @@ public class Handler {
 
     public Page<PostOutDTO> searchPost(String keyWord) {
         return converter.convertPagePostEntityToOutDTO(postService.searchPageable(keyWord), 0, 100);
+    }
+
+    public ResponseEntity<byte[]> getFileResponse(Long imageId) {
+        ProfileImageEntity fileEntity = profileImageService.getProfileImageById(imageId);
+
+        HttpHeaders header = new HttpHeaders();
+        header.setContentType(MediaType.valueOf(fileEntity.getContentType()));
+        header.setContentLength(fileEntity.getData().length);
+        header.set("Content-Disposition", "attachment; filename=" + fileEntity.getName());
+
+        return new ResponseEntity<>(fileEntity.getData(), header, HttpStatus.OK);
     }
 }

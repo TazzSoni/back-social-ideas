@@ -1,6 +1,7 @@
 package com.backsocialideas.dto;
 
 import lombok.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.constraints.NotBlank;
 
@@ -17,5 +18,6 @@ public class UserInDTO {
     private String email;
     @NotBlank(message = "The password could not be null or empty.")
     private String password;
+    private MultipartFile profileImage;
 
 }
