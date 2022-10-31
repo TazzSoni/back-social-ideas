@@ -3,6 +3,7 @@ package com.backsocialideas.service;
 import com.backsocialideas.converter.Converter;
 import com.backsocialideas.dto.LoginDTO;
 import com.backsocialideas.dto.UserUpdateDTO;
+import com.backsocialideas.exception.BadRequestException;
 import com.backsocialideas.exception.RecordNotFoundException;
 import com.backsocialideas.model.CommentEntity;
 import com.backsocialideas.model.PostEntity;
@@ -36,6 +37,7 @@ public class UserService {
             userEntity.setName(userUpdateDTO.getName());
         }
         if(userUpdateDTO.getEmail() != null){
+            checkEmailExistis(userUpdateDTO.getEmail(), userEntity.getEmail());
             userEntity.setEmail(userUpdateDTO.getEmail());
         }
         if(userUpdateDTO.getPassword() != null){
@@ -45,6 +47,14 @@ public class UserService {
             userEntity.setProfileImageEntity(converter.setProfileImage(userUpdateDTO.getProfileImage()));
         }
         return repository.save(userEntity);
+    }
+
+    private void checkEmailExistis(String email, String entityEmail) {
+       List<UserEntity> usersEmail = repository.findAllByEmailEquals(email);
+       if(usersEmail.size() > 0){
+           if(!(usersEmail.get(0).getEmail().equals(entityEmail)))
+           throw new BadRequestException("Email já existe");
+       }
     }
 
     public List<UserEntity> getAll() {
