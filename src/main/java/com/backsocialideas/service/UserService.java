@@ -1,6 +1,8 @@
 package com.backsocialideas.service;
 
+import com.backsocialideas.converter.Converter;
 import com.backsocialideas.dto.LoginDTO;
+import com.backsocialideas.dto.UserUpdateDTO;
 import com.backsocialideas.exception.RecordNotFoundException;
 import com.backsocialideas.model.CommentEntity;
 import com.backsocialideas.model.PostEntity;
@@ -10,6 +12,7 @@ import javassist.tools.web.BadHttpRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.util.List;
 
 @Service
@@ -17,6 +20,7 @@ import java.util.List;
 public class UserService {
 
     private final UserRepository repository;
+    private final Converter converter;
 
     public static void deleteDisLikePost(UserEntity user, Long id) {
 
@@ -26,8 +30,21 @@ public class UserService {
         return repository.save(entity);
     }
 
-    public UserEntity update(UserEntity entity){
-        return repository.save(entity);
+    public UserEntity update(Long id, UserUpdateDTO userUpdateDTO) throws IOException {
+        UserEntity userEntity = repository.getOne(id);
+        if(userUpdateDTO.getName() != null) {
+            userEntity.setName(userUpdateDTO.getName());
+        }
+        if(userUpdateDTO.getEmail() != null){
+            userEntity.setEmail(userUpdateDTO.getEmail());
+        }
+        if(userUpdateDTO.getPassword() != null){
+            userEntity.setPassword(userUpdateDTO.getPassword());
+        }
+        if(userUpdateDTO.getProfileImage() != null){
+            userEntity.setProfileImageEntity(converter.setProfileImage(userUpdateDTO.getProfileImage()));
+        }
+        return repository.save(userEntity);
     }
 
     public List<UserEntity> getAll() {

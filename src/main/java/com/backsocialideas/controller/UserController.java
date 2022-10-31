@@ -44,8 +44,8 @@ public class UserController {
     }
 
     @PutMapping("/user/{id}")
-    public void update(@PathVariable("id") Long id, @Valid @RequestBody UserUpdateDTO userUpdateDTO) {
-        handler.updateUser(id, userUpdateDTO);
+    public ResponseEntity<UserOutDTO> update(@PathVariable("id") Long id, @ModelAttribute UserUpdateDTO userUpdateDTO) throws IOException {
+        return new ResponseEntity<>(handler.updateUser(id, userUpdateDTO), HttpStatus.OK);
     }
 
     @GetMapping("/user")

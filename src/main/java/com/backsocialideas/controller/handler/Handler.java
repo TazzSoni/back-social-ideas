@@ -17,6 +17,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.List;
@@ -38,8 +39,9 @@ public class Handler {
         return converter.convertUserEntityToOutDTO(userService.save(converter.convertUserInDTOToEntity(inDTO)));
     }
 
-    public void updateUser(Long id, UserUpdateDTO userUpdateDTO) {
-        userService.update(converter.converterUserUpdateDTOToEntity(id, userUpdateDTO));
+    @Transactional
+    public UserOutDTO updateUser(Long id, UserUpdateDTO userUpdateDTO) throws IOException {
+        return converter.convertUserEntityToOutDTO(userService.update(id, userUpdateDTO));
     }
 
     public List<UserOutDTO> getAll() {
@@ -287,6 +289,7 @@ public class Handler {
         return new ResponseEntity<>(fileEntity.getData(), header, HttpStatus.OK);
     }
 
+    @Transactional
     public PostOutDTO updatePost(Long postId, PostInDTO postUpdateDTO) {
         return converter.convertPostEntityToOutDTO(postService.update(postId, postUpdateDTO));
     }

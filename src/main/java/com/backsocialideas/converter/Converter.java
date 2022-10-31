@@ -42,7 +42,7 @@ public class Converter {
                 .build();
     }
 
-    private ProfileImageEntity setProfileImage(MultipartFile profileImage) throws IOException {
+    public ProfileImageEntity setProfileImage(MultipartFile profileImage) throws IOException {
         if(profileImage == null){
             return null;
         }else{
