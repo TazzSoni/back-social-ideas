@@ -9,6 +9,9 @@ import com.backsocialideas.model.PostEntity;
 import com.backsocialideas.model.UserEntity;
 import com.backsocialideas.repository.PostRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -75,12 +78,12 @@ public class PostService {
         return repository.findAll();
     }
 
-    public List<PostEntity> getAllPageable() {
-        return repository.findAll();
+    public Page<PostEntity> getAllPageable(Pageable pageable) {
+        return repository.findAll(pageable);
     }
 
-    public List<PostEntity> searchPageable(String keyWord) {
-        return repository.findPostEntityByTituloLike(keyWord);
+    public Page<PostEntity> searchPageable(String keyWord) {
+        return repository.findPostEntityByTituloLike(PageRequest.of(0, 100), "%"+keyWord+"%");
     }
 
 

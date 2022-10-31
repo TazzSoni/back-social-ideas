@@ -168,8 +168,8 @@ public class Converter {
         return outDTO;
     }
 
-    public Page<PostOutDTO> convertPagePostEntityToOutDTO(List<PostEntity> listEntity, int page, int size) {
+    public Page<PostOutDTO> convertPagePostEntityToOutDTO(Page<PostEntity> page) {
 
-        return new PageImpl<>(convertPostsEntityToOutDTOList(listEntity), PageRequest.of(page,size), listEntity.size());
+        return new PageImpl<>(convertPostsEntityToOutDTOList(page.getContent()), page.getPageable(), page.getTotalElements());
     }
 }

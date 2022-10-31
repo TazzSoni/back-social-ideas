@@ -10,6 +10,7 @@ import javassist.tools.web.BadHttpRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -268,11 +269,11 @@ public class Handler {
     }
 
     public Page<PostOutDTO> postsGetAllPageable(int page, int size) {
-        return converter.convertPagePostEntityToOutDTO(postService.getAllPageable(), page, size);
+        return converter.convertPagePostEntityToOutDTO(postService.getAllPageable(PageRequest.of(page,size)));
     }
 
     public Page<PostOutDTO> searchPost(String keyWord) {
-        return converter.convertPagePostEntityToOutDTO(postService.searchPageable(keyWord), 0, 100);
+        return converter.convertPagePostEntityToOutDTO(postService.searchPageable(keyWord));
     }
 
     public ResponseEntity<byte[]> getFileResponse(Long imageId) {
