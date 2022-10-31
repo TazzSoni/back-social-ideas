@@ -28,6 +28,7 @@ public class UserService {
     }
 
     public UserEntity save(UserEntity entity){
+        checkEmailExistis(entity.getEmail());
         return repository.save(entity);
     }
 
@@ -53,6 +54,13 @@ public class UserService {
        List<UserEntity> usersEmail = repository.findAllByEmailEquals(email);
        if(usersEmail.size() > 0){
            if(!(usersEmail.get(0).getEmail().equals(entityEmail)))
+           throw new BadRequestException("Email já existe");
+       }
+    }
+
+    private void checkEmailExistis(String email) {
+       List<UserEntity> usersEmail = repository.findAllByEmailEquals(email);
+       if(usersEmail.size() > 0){
            throw new BadRequestException("Email já existe");
        }
     }

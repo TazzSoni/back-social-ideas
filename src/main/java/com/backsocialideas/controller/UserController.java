@@ -29,13 +29,7 @@ public class UserController {
 
     @PostMapping(path = "/user", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
     public ResponseEntity<UserOutDTO> saveUser(@ModelAttribute UserInDTO inDTO) throws IOException {
-        try {
             return new ResponseEntity<>(handler.saveUser(inDTO), HttpStatus.CREATED);
-        }catch (DataIntegrityViolationException ex){
-            throw new BadRequestException(ex.getCause().getCause().getLocalizedMessage());
-        }catch (Exception ex){
-            throw new BadRequestException(ex.getLocalizedMessage());
-        }
     }
 
     @GetMapping("/user/image/{imageId}")
