@@ -46,7 +46,7 @@ public class CommentService {
         likeDislikeService.saveCommentLike(likeComment);
         UserEntity user = userService.getOne(userId);
         user.getLikesComment().add(likeComment);
-        userService.save(user);
+        userService.saveDirectly(user);
         entity.getLikes().add(likeComment);
     }
 
@@ -55,7 +55,7 @@ public class CommentService {
         likeDislikeService.saveCommentDislike(dislikeComment);
         UserEntity user = userService.getOne(userId);
         user.getDislikesComment().add(dislikeComment);
-        userService.save(user);
+        userService.saveDirectly(user);
         entity.getDislikes().add(dislikeComment);
     }
 

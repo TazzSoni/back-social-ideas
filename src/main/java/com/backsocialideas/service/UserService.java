@@ -32,6 +32,10 @@ public class UserService {
         return repository.save(entity);
     }
 
+    public UserEntity saveDirectly(UserEntity entity){
+        return repository.save(entity);
+    }
+
     public UserEntity update(Long id, UserUpdateDTO userUpdateDTO) throws IOException {
         UserEntity userEntity = repository.getOne(id);
         if(userUpdateDTO.getName() != null) {

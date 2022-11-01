@@ -57,7 +57,7 @@ public class PostService {
         likeDislikeService.savePostLike(likePost);
         UserEntity user = userService.getOne(userId);
         user.getLikesPost().add(likePost);
-        userService.save(user);
+        userService.saveDirectly(user);
         entity.getLikes().add(likePost);
     }
 
@@ -66,7 +66,7 @@ public class PostService {
         likeDislikeService.savePostDislike(dislikePost);
         UserEntity user = userService.getOne(userId);
         user.getDislikesPost().add(dislikePost);
-        userService.save(user);
+        userService.saveDirectly(user);
         entity.getDislikes().add(dislikePost);
     }
 
