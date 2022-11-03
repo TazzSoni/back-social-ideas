@@ -17,7 +17,6 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.List;
@@ -296,5 +295,13 @@ public class Handler {
 
     public PostOutDTO updateStatusPost(Long postId, Stage stage) {
         return converter.convertPostEntityToOutDTO(postService.updateStatus(postId, stage));
+    }
+
+    public PostOutDTO setPostCooworker(Long postId, Long userId) {
+        return converter.convertPostEntityToOutDTO(postService.setPostCooworker(postId, userId));
+    }
+
+    public PostOutDTO deletePostCooworker(Long postId) {
+        return converter.convertPostEntityToOutDTO(postService.deletePostCooworker(postId));
     }
 }

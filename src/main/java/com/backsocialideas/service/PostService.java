@@ -2,6 +2,7 @@ package com.backsocialideas.service;
 
 import com.backsocialideas.dto.PostInDTO;
 import com.backsocialideas.dto.enums.Stage;
+import com.backsocialideas.exception.BadRequestException;
 import com.backsocialideas.exception.RecordNotFoundException;
 import com.backsocialideas.model.DislikePost;
 import com.backsocialideas.model.LikePost;
@@ -24,7 +25,7 @@ public class PostService {
     private final UserService userService;
     private final LikeDislikeService likeDislikeService;
 
-    public PostEntity save(Long ownerId, PostEntity entity){
+    public PostEntity save(Long ownerId, PostEntity entity) {
         entity.setStage(Stage.POSTED);
         entity.setUser(userService.getOne(ownerId));
         PostEntity entitySaved = repository.save(entity);
@@ -83,16 +84,16 @@ public class PostService {
     }
 
     public Page<PostEntity> searchPageable(String keyWord) {
-        return repository.findPostEntityByTituloLike(PageRequest.of(0, 100), "%"+keyWord+"%");
+        return repository.findPostEntityByTituloLike(PageRequest.of(0, 100), "%" + keyWord + "%");
     }
 
 
     public PostEntity update(Long postId, PostInDTO postUpdateDTO) {
         PostEntity postEntity = repository.getOne(postId);
-        if(postUpdateDTO.getPost() != null) {
+        if (postUpdateDTO.getPost() != null) {
             postEntity.setPost(postUpdateDTO.getPost());
         }
-        if(postUpdateDTO.getTitulo() != null){
+        if (postUpdateDTO.getTitulo() != null) {
             postEntity.setTitulo(postUpdateDTO.getTitulo());
         }
         return repository.save(postEntity);
@@ -103,6 +104,28 @@ public class PostService {
 
         postEntity.setStage(stage);
 
+        return repository.save(postEntity);
+    }
+
+    public PostEntity setPostCooworker(Long postId, Long userId) {
+        PostEntity postEntity = repository.getOne(postId);
+        if (postEntity.getCooworker() != null) {
+            if (postEntity.getCooworker().getId() == userId) {
+                throw new BadRequestException("Usuário já é colaborador!");
+            }
+            throw new BadRequestException("Ideia já possui colaborador!");
+        }
+        postEntity.setCooworker(userService.getOne(userId));
+        return repository.save(postEntity);
+    }
+
+    public PostEntity deletePostCooworker(Long postId) {
+        PostEntity postEntity = repository.getOne(postId);
+        if (postEntity.getCooworker() != null) {
+           postEntity.setCooworker(null);
+        }else{
+            throw new BadRequestException("Ideia não possui Colaborador");
+        }
         return repository.save(postEntity);
     }
 }

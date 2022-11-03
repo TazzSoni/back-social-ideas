@@ -39,6 +39,16 @@ public class PostController {
         return new ResponseEntity<>(handler.updateStatusPost(postId, stage), HttpStatus.OK);
     }
 
+    @PatchMapping("/post/set-cooworker{postId}")
+    public ResponseEntity<PostOutDTO> setPostCooworker(@PathVariable("postId") Long postId, @RequestParam Long userId){
+        return new ResponseEntity<>(handler.setPostCooworker(postId, userId), HttpStatus.OK);
+    }
+
+    @PatchMapping("/post/delete-coworker{postId}")
+    public ResponseEntity<PostOutDTO> deletePostCooworker(@PathVariable("postId") Long postId){
+        return new ResponseEntity<>(handler.deletePostCooworker(postId), HttpStatus.OK);
+    }
+
     @GetMapping("/post")
     public ResponseEntity<List<PostOutDTO>> postsGetAll() {
         return new ResponseEntity<>(handler.postsGetAll(), HttpStatus.OK);
