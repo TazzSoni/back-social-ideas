@@ -304,4 +304,9 @@ public class Handler {
     public PostOutDTO deletePostCooworker(Long postId) {
         return converter.convertPostEntityToOutDTO(postService.deletePostCooworker(postId));
     }
+
+    public Page<PostOutDTO>  searchPostsByUserName(String userName) {
+        List<Long> userIds = userService.searchUserByName(userName);
+        return converter.convertPagePostEntityToOutDTO(postService.searchByUserNamePageable(userIds));
+    }
 }

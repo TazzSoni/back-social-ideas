@@ -19,4 +19,7 @@ public interface PostRepository extends JpaRepository<PostEntity, Long> {
 
     @Query(value = "select * from post where lower(des_title) like lower(:titulo) or lower(des_post) like lower(:titulo)", nativeQuery = true)
     Page<PostEntity> findPostEntityByTituloLikeAndPostLike(Pageable page, String titulo);
+
+    @Query(value = "select * from post where oid_version in :userIds", nativeQuery = true)
+    Page<PostEntity> findByUserIdIn(Pageable page, List<Long> userIds);
 }

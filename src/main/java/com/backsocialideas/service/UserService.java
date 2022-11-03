@@ -107,4 +107,8 @@ public class UserService {
             throw new BadHttpRequest();
         }
     }
+
+    public List<Long> searchUserByName(String userName) {
+        return repository.searchByUserName("%"+userName+"%");
+    }
 }

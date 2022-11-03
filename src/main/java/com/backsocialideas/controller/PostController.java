@@ -64,6 +64,11 @@ public class PostController {
         return new ResponseEntity<>(handler.getPostsByuser(userId), HttpStatus.OK);
     }
 
+    @GetMapping("/post/search-by-user")
+    public ResponseEntity<Page<PostOutDTO>> searchPostsByUser(@RequestParam String userName) {
+        return new ResponseEntity<>(handler.searchPostsByUserName(userName), HttpStatus.OK);
+    }
+
     @PostMapping("/post/search")
     public ResponseEntity<Page<PostOutDTO>> searchPost(@RequestParam String keyWord) {
         return new ResponseEntity<>(handler.searchPost(keyWord), HttpStatus.OK);

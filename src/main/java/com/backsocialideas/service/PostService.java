@@ -128,4 +128,8 @@ public class PostService {
         }
         return repository.save(postEntity);
     }
+
+    public Page<PostEntity> searchByUserNamePageable(List<Long> userIds) {
+        return repository.findByUserIdIn(PageRequest.of(0, 100), userIds);
+    }
 }
