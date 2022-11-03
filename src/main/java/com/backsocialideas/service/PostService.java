@@ -84,7 +84,7 @@ public class PostService {
     }
 
     public Page<PostEntity> searchPageable(String keyWord) {
-        return repository.findPostEntityByTituloLike(PageRequest.of(0, 100), "%" + keyWord + "%");
+        return repository.findPostEntityByTituloLikeAndPostLike(PageRequest.of(0, 100), "%" + keyWord + "%");
     }
 
 
