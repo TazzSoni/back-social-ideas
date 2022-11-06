@@ -4,16 +4,14 @@ import com.backsocialideas.dto.PostInDTO;
 import com.backsocialideas.dto.enums.Stage;
 import com.backsocialideas.exception.BadRequestException;
 import com.backsocialideas.exception.RecordNotFoundException;
-import com.backsocialideas.model.DislikePost;
-import com.backsocialideas.model.LikePost;
-import com.backsocialideas.model.PostEntity;
-import com.backsocialideas.model.UserEntity;
+import com.backsocialideas.model.*;
 import com.backsocialideas.repository.PostRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -24,6 +22,7 @@ public class PostService {
     private final PostRepository repository;
     private final UserService userService;
     private final LikeDislikeService likeDislikeService;
+    private final AsksForCooworkerService asksForCooworkerService;
 
     public PostEntity save(Long ownerId, PostEntity entity) {
         entity.setStage(Stage.POSTED);
@@ -107,6 +106,7 @@ public class PostService {
         return repository.save(postEntity);
     }
 
+    @Transactional
     public PostEntity setPostCooworker(Long postId, Long userId) {
         PostEntity postEntity = repository.getOne(postId);
         if (postEntity.getCooworker() != null) {
@@ -116,14 +116,15 @@ public class PostService {
             throw new BadRequestException("Ideia já possui colaborador!");
         }
         postEntity.setCooworker(userService.getOne(userId));
+        asksForCooworkerService.deleteUserRequestIdAndPostId(postId, userId);
         return repository.save(postEntity);
     }
 
     public PostEntity deletePostCooworker(Long postId) {
         PostEntity postEntity = repository.getOne(postId);
         if (postEntity.getCooworker() != null) {
-           postEntity.setCooworker(null);
-        }else{
+            postEntity.setCooworker(null);
+        } else {
             throw new BadRequestException("Ideia não possui Colaborador");
         }
         return repository.save(postEntity);

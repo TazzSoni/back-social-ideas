@@ -8,4 +8,6 @@ import java.util.List;
 
 public interface AsksForCooworkerRepository extends JpaRepository<AsksForCooworker, Long> {
     List<AsksForCooworker> getAllByUserOwnerId(Long userId);
+
+    AsksForCooworker getByPostIdAndUserRequestId(Long postId, Long userRequestId);
 }
