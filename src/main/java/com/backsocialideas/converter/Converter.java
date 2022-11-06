@@ -1,10 +1,7 @@
 package com.backsocialideas.converter;
 
 import com.backsocialideas.dto.*;
-import com.backsocialideas.model.CommentEntity;
-import com.backsocialideas.model.PostEntity;
-import com.backsocialideas.model.ProfileImageEntity;
-import com.backsocialideas.model.UserEntity;
+import com.backsocialideas.model.*;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
@@ -170,5 +167,13 @@ public class Converter {
     public Page<PostOutDTO> convertPagePostEntityToOutDTO(Page<PostEntity> page) {
 
         return new PageImpl<>(convertPostsEntityToOutDTOList(page.getContent()), page.getPageable(), page.getTotalElements());
+    }
+
+    public AskForCooworkDTO convertAskForWorkerEntityToDTO(AsksForCooworker entity) {
+        return mapper.map(entity, AskForCooworkDTO.class);
+    }
+
+    public List<AskForCooworkDTO> convertAskForWorkerEntityListToDTO(List<AsksForCooworker> byUser) {
+        return byUser.stream().map(this::convertAskForWorkerEntityToDTO).collect(Collectors.toList());
     }
 }

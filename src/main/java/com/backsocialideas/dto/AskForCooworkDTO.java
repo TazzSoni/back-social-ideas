@@ -2,15 +2,16 @@ package com.backsocialideas.dto;
 
 import lombok.*;
 
+import javax.persistence.Column;
+
 @Getter
 @Setter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class CommentDTO {
+public class AskForCooworkDTO {
 
     private Long id;
-    private String comment;
-    private RateDTO rate;
-    private CommentUserDTO user;
+    private Long userOwnerId;
+    private Long userRequestId;
 }

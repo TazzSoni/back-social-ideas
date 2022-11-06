@@ -32,6 +32,7 @@ public class Handler {
     private final PostService postService;
     private final LikeDislikeService likeDislikeService;
     private final ProfileImageService profileImageService;
+    private final AsksForCooworkerService asksForCooworkerService;
 
     @Transactional
     public UserOutDTO saveUser(UserInDTO inDTO) throws IOException {
@@ -308,5 +309,14 @@ public class Handler {
     public Page<PostOutDTO>  searchPostsByUserName(String userName) {
         List<Long> userIds = userService.searchUserByName(userName);
         return converter.convertPagePostEntityToOutDTO(postService.searchByUserNamePageable(userIds));
+    }
+
+    public AskForCooworkDTO askForPostCooworker(Long postId, Long userRequestId) {
+        PostEntity postEntity = postService.getOne(postId);
+        return converter.convertAskForWorkerEntityToDTO(asksForCooworkerService.save(postId, postEntity.getUser().getId(), userRequestId));
+    }
+
+    public List<AskForCooworkDTO> requestsForCooworker(Long userid) {
+        return converter.convertAskForWorkerEntityListToDTO(asksForCooworkerService.getByUserOwner(userid));
     }
 }

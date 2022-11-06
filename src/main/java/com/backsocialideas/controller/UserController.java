@@ -63,4 +63,9 @@ public class UserController {
         return new ResponseEntity<>(handler.login(login), HttpStatus.OK);
     }
 
+    @GetMapping("/cooworker-request/{userid}")
+    public ResponseEntity<List<AskForCooworkDTO>> requestsForCooworker(@PathVariable Long userid){
+        return new ResponseEntity<>(handler.requestsForCooworker(userid), HttpStatus.OK);
+    }
+
 }

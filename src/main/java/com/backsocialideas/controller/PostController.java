@@ -1,6 +1,7 @@
 package com.backsocialideas.controller;
 
 import com.backsocialideas.controller.handler.Handler;
+import com.backsocialideas.dto.AskForCooworkDTO;
 import com.backsocialideas.dto.PostDTO;
 import com.backsocialideas.dto.PostInDTO;
 import com.backsocialideas.dto.PostOutDTO;
@@ -37,6 +38,11 @@ public class PostController {
     @PatchMapping("/post/{postId}")
     public ResponseEntity<PostOutDTO> updateStatusPost(@PathVariable("postId") Long postId, Stage stage){
         return new ResponseEntity<>(handler.updateStatusPost(postId, stage), HttpStatus.OK);
+    }
+
+    @PatchMapping("/post/ask-for-cooworker{postId}")
+    public ResponseEntity<AskForCooworkDTO> askForPostCooworker(@PathVariable("postId") Long postId, @RequestParam Long userRequestId){
+        return new ResponseEntity<>(handler.askForPostCooworker(postId, userRequestId), HttpStatus.OK);
     }
 
     @PatchMapping("/post/set-cooworker{postId}")
