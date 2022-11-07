@@ -318,8 +318,13 @@ public class Handler {
 
     public AskForCooworkDTO askForPostCooworker(Long postId, Long userRequestId) {
         PostEntity postEntity = postService.getOne(postId);
+        AsksForCooworker pedido = asksForCooworkerService.getByPost(postId);
         if (postEntity.getCooworker() == null) {
-            return converter.convertAskForWorkerEntityToDTO(asksForCooworkerService.save(postId, postEntity.getUser().getId(), userRequestId));
+            if (pedido == null) {
+                return converter.convertAskForWorkerEntityToDTO(asksForCooworkerService.save(postId, postEntity.getUser().getId(), userRequestId));
+            } else {
+                throw new BadRequestException("Post já tem solicitação");
+            }
         } else {
             throw new BadRequestException("Post já tem colaborador");
         }
