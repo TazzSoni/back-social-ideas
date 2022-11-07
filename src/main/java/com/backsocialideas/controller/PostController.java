@@ -45,7 +45,7 @@ public class PostController {
         return new ResponseEntity<>(handler.askForPostCooworker(postId, userRequestId), HttpStatus.OK);
     }
 
-    @PatchMapping("/post/set-cooworker{postId}")
+    @PatchMapping("/post/set-cooworker/{postId}")
     public ResponseEntity<PostOutDTO> setPostCooworker(@PathVariable("postId") Long postId, @RequestParam Long userRequestId){
         return new ResponseEntity<>(handler.setPostCooworker(postId, userRequestId), HttpStatus.OK);
     }
