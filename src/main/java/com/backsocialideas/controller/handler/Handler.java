@@ -276,7 +276,7 @@ public class Handler {
     }
 
     public Page<PostOutDTO> postsGetAllPageable(int page, int size) {
-        return converter.convertPagePostEntityToOutDTO(postService.getAllPageable(PageRequest.of(page,size)));
+        return converter.convertPagePostEntityToOutDTO(postService.getAllPageable(PageRequest.of(page, size)));
     }
 
     public Page<PostOutDTO> searchPost(String keyWord) {
@@ -311,26 +311,34 @@ public class Handler {
         return converter.convertPostEntityToOutDTO(postService.deletePostCooworker(postId));
     }
 
-    public Page<PostOutDTO>  searchPostsByUserName(String userName) {
+    public Page<PostOutDTO> searchPostsByUserName(String userName) {
         List<Long> userIds = userService.searchUserByName(userName);
         return converter.convertPagePostEntityToOutDTO(postService.searchByUserNamePageable(userIds));
     }
 
     public AskForCooworkDTO askForPostCooworker(Long postId, Long userRequestId) {
         PostEntity postEntity = postService.getOne(postId);
-        if(postEntity.getCooworker() == null){
+        if (postEntity.getCooworker() == null) {
             return converter.convertAskForWorkerEntityToDTO(asksForCooworkerService.save(postId, postEntity.getUser().getId(), userRequestId));
-        }else{
+        } else {
             throw new BadRequestException("Post já tem colaborador");
         }
     }
 
     public List<AskForCooworkDTO> requestsForCooworker(Long userid) {
-        return converter.convertAskForWorkerEntityListToDTO(asksForCooworkerService.getByUserOwner(userid));
+
+        List<AskForCooworkDTO> retorno = converter.convertAskForWorkerEntityListToDTO(asksForCooworkerService.getByUserOwner(userid));
+        retorno.stream().forEach(a -> a.setUserRequestName(userService.getOne(a.getUserRequestId()).getName()));
+        return retorno;
     }
 
     public AskForCooworkDTO getRequestCooworkerByPost(Long postId) {
-        return converter.convertAskForWorkerEntityToDTO(asksForCooworkerService.getByPost(postId));
+        AsksForCooworker entity = asksForCooworkerService.getByPost(postId);
+        AskForCooworkDTO retorno = converter.convertAskForWorkerEntityToDTO(entity);
+        if (retorno != null) {
+            retorno.setUserRequestName(userService.getOne(entity.getUserRequestId()).getName());
+        }
+        return retorno;
     }
 
     public void deleteAksCooworker(Long id) {
