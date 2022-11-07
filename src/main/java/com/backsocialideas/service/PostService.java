@@ -40,16 +40,22 @@ public class PostService {
     }
 
 
+    @Transactional
     public PostEntity like(Long id, Long userId) {
         PostEntity entity = repository.findById(id).orElseThrow(() -> new RecordNotFoundException("Post não encontrado!"));
         setLike(entity, userId);
-        return repository.save(entity);
+        PostEntity retorno = repository.save(entity);
+        userService.atualizaLevel(entity.getUser().getId());
+        return retorno;
     }
 
+    @Transactional
     public PostEntity dislike(Long id, Long userId) {
         PostEntity entity = repository.findById(id).orElseThrow(() -> new RecordNotFoundException("Post não encontrado!"));
         setDislike(entity, userId);
-        return repository.save(entity);
+        PostEntity retorno =repository.save(entity);
+        userService.atualizaLevel(userId);
+        return retorno;
     }
 
     private void setLike(PostEntity entity, Long userId) {
@@ -132,5 +138,9 @@ public class PostService {
 
     public Page<PostEntity> searchByUserNamePageable(List<Long> userIds) {
         return repository.findByUserIdIn(PageRequest.of(0, 100), userIds);
+    }
+
+    public List<PostEntity> findByUserId(Long userId) {
+        return repository.findByUserId(userId);
     }
 }

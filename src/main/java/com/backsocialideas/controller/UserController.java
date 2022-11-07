@@ -68,4 +68,9 @@ public class UserController {
         return new ResponseEntity<>(handler.requestsForCooworker(userid), HttpStatus.OK);
     }
 
+    @GetMapping("/rate/{userid}")
+    public ResponseEntity<RateDTO> getRateUser(@PathVariable Long userid){
+        return new ResponseEntity<>(handler.getRateuser(userid), HttpStatus.OK);
+    }
+
 }

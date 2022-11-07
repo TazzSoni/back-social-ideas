@@ -344,4 +344,8 @@ public class Handler {
     public void deleteAksCooworker(Long id) {
         asksForCooworkerService.deleteById(id);
     }
+
+    public RateDTO getRateuser(Long userid) {
+        return userService.getRateUser(userid);
+    }
 }

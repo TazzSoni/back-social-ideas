@@ -2,6 +2,7 @@ package com.backsocialideas.service;
 
 import com.backsocialideas.converter.Converter;
 import com.backsocialideas.dto.LoginDTO;
+import com.backsocialideas.dto.RateDTO;
 import com.backsocialideas.dto.UserUpdateDTO;
 import com.backsocialideas.exception.BadRequestException;
 import com.backsocialideas.exception.RecordNotFoundException;
@@ -12,6 +13,7 @@ import com.backsocialideas.repository.UserRepository;
 import javassist.tools.web.BadHttpRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
 import java.util.List;
@@ -110,5 +112,35 @@ public class UserService {
 
     public List<Long> searchUserByName(String userName) {
         return repository.searchByUserName("%"+userName+"%");
+    }
+
+
+    @Transactional
+    public void atualizaLevel(Long userId) {
+        UserEntity user = repository.getOne(userId);
+        List<PostEntity> posts = user.getPosts();
+        int totalLikesPost = posts.stream().mapToInt(post -> post.getLikes().size()).sum();
+        int totalDislikesPost = posts.stream().mapToInt(post -> post.getDislikes().size()).sum();
+        List<CommentEntity> comments = user.getComments();
+        int totalLikesComm = comments.stream().mapToInt(comment -> comment.getLikes().size()).sum();
+        int totalDislikesComm = comments.stream().mapToInt(comment -> comment.getDislikes().size()).sum();
+        int totalLikes = totalLikesPost + totalLikesComm;
+        int totalDislikes = totalDislikesPost + totalDislikesComm;
+        user.setLevel(totalDislikes == 0 ? totalLikes : totalLikes / totalDislikes);
+        repository.save(user);
+    }
+
+    public RateDTO getRateUser(Long userid) {
+        RateDTO retorno = RateDTO.builder().build();
+        UserEntity user = repository.getOne(userid);
+        List<PostEntity> posts = user.getPosts();
+        int totalLikesPost = posts.stream().mapToInt(post -> post.getLikes().size()).sum();
+        int totalDislikesPost = posts.stream().mapToInt(post -> post.getDislikes().size()).sum();
+        List<CommentEntity> comments = user.getComments();
+        int totalLikesComm = comments.stream().mapToInt(comment -> comment.getLikes().size()).sum();
+        int totalDislikesComm = comments.stream().mapToInt(comment -> comment.getDislikes().size()).sum();
+        retorno.setLike(totalLikesPost + totalLikesComm);
+        retorno.setDislike(totalDislikesPost + totalDislikesComm);
+        return retorno;
     }
 }

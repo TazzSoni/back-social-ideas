@@ -1,13 +1,11 @@
 package com.backsocialideas.service;
 
 import com.backsocialideas.exception.RecordNotFoundException;
-import com.backsocialideas.model.CommentEntity;
-import com.backsocialideas.model.DislikeComment;
-import com.backsocialideas.model.LikeComment;
-import com.backsocialideas.model.UserEntity;
+import com.backsocialideas.model.*;
 import com.backsocialideas.repository.CommentRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -29,16 +27,26 @@ public class CommentService {
         return repository.findByPostsId(postId);
     }
 
+    public List<CommentEntity> getCommnetsByUserId(Long userId) {
+        return repository.findByUserId(userId);
+    }
+
+    @Transactional
     public CommentEntity like(Long id, Long userId) {
         CommentEntity entity = repository.findById(id).orElseThrow(() -> new RecordNotFoundException("Comentário não encontrado!"));
         setLike(entity, userId);
-        return repository.save(entity);
+        CommentEntity retorno = repository.save(entity);
+        userService.atualizaLevel(entity.getUser().getId());
+        return retorno;
     }
 
+    @Transactional
     public CommentEntity dislike(Long id, Long userId) {
         CommentEntity entity = repository.findById(id).orElseThrow(() -> new RecordNotFoundException("Comentário não encontrado!"));
         setDislike(entity, userId);
-        return repository.save(entity);
+        CommentEntity retorno =repository.save(entity);
+        userService.atualizaLevel(entity.getUser().getId());
+        return retorno;
     }
 
     private void setLike(CommentEntity entity, Long userId) {
