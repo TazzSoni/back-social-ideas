@@ -50,6 +50,11 @@ public class PostController {
         return new ResponseEntity<>(handler.setPostCooworker(postId, userRequestId), HttpStatus.OK);
     }
 
+    @GetMapping("/post/request-cooworker{postId}")
+    public ResponseEntity<AskForCooworkDTO> getRequestCooworkerByPost(@PathVariable("postId") Long postId){
+        return new ResponseEntity<>(handler.getRequestCooworkerByPost(postId), HttpStatus.OK);
+    }
+
     @PatchMapping("/post/delete-coworker{postId}")
     public ResponseEntity<PostOutDTO> deletePostCooworker(@PathVariable("postId") Long postId){
         return new ResponseEntity<>(handler.deletePostCooworker(postId), HttpStatus.OK);

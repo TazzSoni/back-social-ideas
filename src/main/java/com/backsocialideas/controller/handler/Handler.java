@@ -319,4 +319,8 @@ public class Handler {
     public List<AskForCooworkDTO> requestsForCooworker(Long userid) {
         return converter.convertAskForWorkerEntityListToDTO(asksForCooworkerService.getByUserOwner(userid));
     }
+
+    public AskForCooworkDTO getRequestCooworkerByPost(Long postId) {
+        return converter.convertAskForWorkerEntityToDTO(asksForCooworkerService.getByPost(postId));
+    }
 }

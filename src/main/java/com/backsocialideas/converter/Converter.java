@@ -33,15 +33,15 @@ public class Converter {
                 .name(inDTO.getName())
                 .password(inDTO.getPassword())
                 .profileImageEntity(
-                        (inDTO.getProfileImage() == null)? null :setProfileImage(inDTO.getProfileImage())
+                        (inDTO.getProfileImage() == null) ? null : setProfileImage(inDTO.getProfileImage())
                 )
                 .build();
     }
 
     public ProfileImageEntity setProfileImage(MultipartFile profileImage) throws IOException {
-        if(profileImage == null){
+        if (profileImage == null) {
             return null;
-        }else{
+        } else {
             return ProfileImageEntity.builder()
                     .name(StringUtils.cleanPath(profileImage.getOriginalFilename()))
                     .contentType(profileImage.getContentType())
@@ -99,7 +99,7 @@ public class Converter {
 
     private void setRatePostOutDTo(PostOutDTO postOutDTO, PostEntity entity) {
         RateDTO rate = RateDTO.builder().build();
-        if (entity.getLikes() != null){
+        if (entity.getLikes() != null) {
             rate.setLike(entity.getLikes().size());
         }
         if (entity.getDislikes() != null) {
@@ -170,7 +170,11 @@ public class Converter {
     }
 
     public AskForCooworkDTO convertAskForWorkerEntityToDTO(AsksForCooworker entity) {
-        return mapper.map(entity, AskForCooworkDTO.class);
+        if (entity != null) {
+            return mapper.map(entity, AskForCooworkDTO.class);
+        } else {
+            return null;
+        }
     }
 
     public List<AskForCooworkDTO> convertAskForWorkerEntityListToDTO(List<AsksForCooworker> byUser) {

@@ -1,5 +1,6 @@
 package com.backsocialideas.service;
 
+import com.backsocialideas.exception.RecordNotFoundException;
 import com.backsocialideas.model.AsksForCooworker;
 import com.backsocialideas.model.PostEntity;
 import com.backsocialideas.repository.AsksForCooworkerRepository;
@@ -25,6 +26,10 @@ public class AsksForCooworkerService {
 
     public List<AsksForCooworker> getByUserOwner(Long userid) {
         return repository.getAllByUserOwnerId(userid);
+    }
+
+    public AsksForCooworker getByPost(Long postId) {
+        return repository.getByPostId(postId);
     }
 
     public void deleteUserRequestIdAndPostId(Long postId, Long userId) {
