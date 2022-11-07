@@ -40,7 +40,7 @@ public class PostController {
         return new ResponseEntity<>(handler.updateStatusPost(postId, stage), HttpStatus.OK);
     }
 
-    @PatchMapping("/post/ask-for-cooworker{postId}")
+    @PatchMapping("/post/ask-for-cooworker/{postId}")
     public ResponseEntity<AskForCooworkDTO> askForPostCooworker(@PathVariable("postId") Long postId, @RequestParam Long userRequestId){
         return new ResponseEntity<>(handler.askForPostCooworker(postId, userRequestId), HttpStatus.OK);
     }
@@ -50,12 +50,12 @@ public class PostController {
         return new ResponseEntity<>(handler.setPostCooworker(postId, userRequestId), HttpStatus.OK);
     }
 
-    @GetMapping("/post/request-cooworker{postId}")
+    @GetMapping("/post/request-cooworker/{postId}")
     public ResponseEntity<AskForCooworkDTO> getRequestCooworkerByPost(@PathVariable("postId") Long postId){
         return new ResponseEntity<>(handler.getRequestCooworkerByPost(postId), HttpStatus.OK);
     }
 
-    @PatchMapping("/post/delete-coworker{postId}")
+    @PatchMapping("/post/delete-coworker/{postId}")
     public ResponseEntity<PostOutDTO> deletePostCooworker(@PathVariable("postId") Long postId){
         return new ResponseEntity<>(handler.deletePostCooworker(postId), HttpStatus.OK);
     }
