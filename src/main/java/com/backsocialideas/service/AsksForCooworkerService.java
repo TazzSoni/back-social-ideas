@@ -36,4 +36,12 @@ public class AsksForCooworkerService {
         AsksForCooworker entity = repository.getByPostIdAndUserRequestId(postId, userId);
         repository.delete(entity);
     }
+
+    public List<AsksForCooworker> findAll() {
+       return  repository.findAll();
+    }
+
+    public void deleteById(Long id) {
+        repository.deleteById(id);
+    }
 }

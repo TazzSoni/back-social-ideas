@@ -3,6 +3,7 @@ package com.backsocialideas.controller.handler;
 import com.backsocialideas.converter.Converter;
 import com.backsocialideas.dto.*;
 import com.backsocialideas.dto.enums.Stage;
+import com.backsocialideas.exception.BadRequestException;
 import com.backsocialideas.model.*;
 import com.backsocialideas.service.*;
 import javassist.NotFoundException;
@@ -46,6 +47,10 @@ public class Handler {
 
     public List<UserOutDTO> getAll() {
         return converter.listUserEntityToListOutDTO(userService.getAll());
+    }
+
+    public List<AskForCooworkDTO> getAllAskCoorworker() {
+        return converter.convertAskForWorkerEntityListToDTO(asksForCooworkerService.findAll());
     }
 
     @Transactional
@@ -313,7 +318,11 @@ public class Handler {
 
     public AskForCooworkDTO askForPostCooworker(Long postId, Long userRequestId) {
         PostEntity postEntity = postService.getOne(postId);
-        return converter.convertAskForWorkerEntityToDTO(asksForCooworkerService.save(postId, postEntity.getUser().getId(), userRequestId));
+        if(postEntity.getCooworker() == null){
+            return converter.convertAskForWorkerEntityToDTO(asksForCooworkerService.save(postId, postEntity.getUser().getId(), userRequestId));
+        }else{
+            throw new BadRequestException("Post já tem colaborador");
+        }
     }
 
     public List<AskForCooworkDTO> requestsForCooworker(Long userid) {
@@ -322,5 +331,9 @@ public class Handler {
 
     public AskForCooworkDTO getRequestCooworkerByPost(Long postId) {
         return converter.convertAskForWorkerEntityToDTO(asksForCooworkerService.getByPost(postId));
+    }
+
+    public void deleteAksCooworker(Long id) {
+        asksForCooworkerService.deleteById(id);
     }
 }
