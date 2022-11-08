@@ -41,7 +41,7 @@ public class Handler {
     }
 
     public UserOutDTO getUserById(Long id) throws IOException {
-        return converter.convertUserEntityToOutDTO(userService.getOne(id);
+        return converter.convertUserEntityToOutDTO(userService.getOne(id));
     }
 
     @Transactional
