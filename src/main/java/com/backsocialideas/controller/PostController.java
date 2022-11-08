@@ -71,7 +71,7 @@ public class PostController {
     }
 
     @GetMapping("/post/{userId}")
-    public ResponseEntity<List<PostDTO>> getPostsByUser(@PathVariable("userId") Long userId) {
+    public ResponseEntity<List<PostOutDTO>> getPostsByUser(@PathVariable("userId") Long userId) {
         return new ResponseEntity<>(handler.getPostsByuser(userId), HttpStatus.OK);
     }
 

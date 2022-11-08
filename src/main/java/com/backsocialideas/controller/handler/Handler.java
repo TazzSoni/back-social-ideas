@@ -71,8 +71,8 @@ public class Handler {
         return converter.convertPostEntityToOutDTOWithUserId(userService.getOne(ownerId), postEntity);
     }
 
-    public List<PostDTO> getPostsByuser(Long userId) {
-        return converter.convertListPostEntityToListDTO(postService.getPostsByUserId(userId));
+    public List<PostOutDTO> getPostsByuser(Long userId) {
+        return converter.convertPostsEntityToOutDTOList(postService.getPostsByUserId(userId));
     }
 
     public List<CommentDTO> getCommentByPost(Long postId) {
