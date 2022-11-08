@@ -48,7 +48,7 @@ public class UserController {
     }
 
     @GetMapping("/user/{id}")
-    public ResponseEntity<List<UserOutDTO>> getUserById(@PathVariable("id") Long id) {
+    public ResponseEntity<UserOutDTO> getUserById(@PathVariable("id") Long id) {
         return new ResponseEntity<>(handler.getUserById(id), HttpStatus.OK);
     }
 
