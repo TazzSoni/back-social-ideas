@@ -47,6 +47,11 @@ public class UserController {
         return new ResponseEntity<>(handler.getAll(), HttpStatus.OK);
     }
 
+    @GetMapping("/user/{id}")
+    public ResponseEntity<List<UserOutDTO>> getUserById(@PathVariable("id") Long id) {
+        return new ResponseEntity<>(handler.getUserById(id), HttpStatus.OK);
+    }
+
     @DeleteMapping("/user/{id}")
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
     public void deleteUser(@PathVariable("id") Long id) {
