@@ -40,6 +40,10 @@ public class Handler {
         return converter.convertUserEntityToOutDTO(userService.save(converter.convertUserInDTOToEntity(inDTO)));
     }
 
+    public UserOutDTO getUserById(Long id) throws IOException {
+        return converter.convertUserEntityToOutDTO(userService.getOne(id);
+    }
+
     @Transactional
     public UserOutDTO updateUser(Long id, UserUpdateDTO userUpdateDTO) throws IOException {
         return converter.convertUserEntityToOutDTO(userService.update(id, userUpdateDTO));
