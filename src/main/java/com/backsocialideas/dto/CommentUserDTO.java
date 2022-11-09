@@ -12,4 +12,5 @@ public class CommentUserDTO {
     private Long id;
     private String name;
     private int level;
+    private boolean teacher;
 }
