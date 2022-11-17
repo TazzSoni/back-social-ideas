@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -101,7 +102,14 @@ public class PostService {
         if (postUpdateDTO.getTitulo() != null) {
             postEntity.setTitulo(postUpdateDTO.getTitulo());
         }
+        if (postUpdateDTO.getTags() != null){
+            postEntity.setTags(setPostTags(postUpdateDTO.getTags()));
+        }
         return repository.save(postEntity);
+    }
+
+    private List<Tags> setPostTags(List<String> tags) {
+       return tags.stream().map(t -> Tags.builder().desTag(t).build()).collect(Collectors.toList());
     }
 
     public PostEntity updateStatus(Long postId, Stage stage) {
