@@ -11,6 +11,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -83,13 +84,22 @@ public class Converter {
     }
 
     public PostEntity convertPostInDTOToEntity(PostInDTO postInDTO) {
-        return mapper.map(postInDTO, PostEntity.class);
+        PostEntity entity = mapper.map(postInDTO, PostEntity.class);
+        entity.setTags(setTags(postInDTO.getTags()));
+        return entity;
+    }
+
+    private List<Tags> setTags(List<String> tags) {
+        List<Tags> listEntitys = new ArrayList<>();
+        tags.stream().forEach(t -> listEntitys.add(Tags.builder().desTag(t).build()));
+        return listEntitys;
     }
 
     public PostOutDTO convertPostEntityToOutDTOWithUserId(UserEntity owner, PostEntity entity) {
         PostOutDTO postOutDTO = mapper.map(entity, PostOutDTO.class);
         postOutDTO.setUser(convertUserEntityToPostUserDTO(owner));
         setRatePostOutDTo(postOutDTO, entity);
+        postOutDTO.setTags(setTagsOutDTO(entity.getTags()));
         return postOutDTO;
     }
 
@@ -161,7 +171,14 @@ public class Converter {
                 .dislike(entity.getDislikes().size())
                 .build());
         outDTO.setComment(entity.getComment().stream().map(this::convertCommentEntityToDTO).collect(Collectors.toList()));
+        outDTO.setTags(setTagsOutDTO(entity.getTags()));
         return outDTO;
+    }
+
+    private List<String> setTagsOutDTO(List<Tags> tags) {
+        List<String> tagsOutDTO = new ArrayList<>();
+        tags.stream().forEach(t -> tagsOutDTO.add(t.getDesTag()));
+        return tagsOutDTO;
     }
 
     public Page<PostOutDTO> convertPagePostEntityToOutDTO(Page<PostEntity> page) {

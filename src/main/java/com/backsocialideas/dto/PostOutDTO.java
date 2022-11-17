@@ -17,6 +17,7 @@ public class PostOutDTO {
     private String post;
     private PostUserDTO user;
     private PostUserDTO cooworker;
+    private List<String> tags;
     private Stage stage;
     private RateDTO rate;
     private List<CommentDTO> comment;
