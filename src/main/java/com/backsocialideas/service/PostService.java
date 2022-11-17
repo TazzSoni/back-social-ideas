@@ -36,7 +36,7 @@ public class PostService {
     }
 
     public List<PostEntity> getPostsByUserId(Long userId) {
-        return repository.findByUserId(userId);
+        return repository.findByUserIdOrCooworkerId(userId, userId);
     }
 
 
@@ -138,10 +138,6 @@ public class PostService {
 
     public Page<PostEntity> searchByUserNamePageable(List<Long> userIds) {
         return repository.findByUserIdIn(PageRequest.of(0, 100), userIds);
-    }
-
-    public List<PostEntity> findByUserId(Long userId) {
-        return repository.findByUserId(userId);
     }
 
     public Page<PostEntity> getAllTeacherPageable(PageRequest of) {
