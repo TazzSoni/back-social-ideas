@@ -143,4 +143,8 @@ public class PostService {
     public List<PostEntity> findByUserId(Long userId) {
         return repository.findByUserId(userId);
     }
+
+    public Page<PostEntity> getAllTeacherPageable(PageRequest of) {
+        return repository.findAllByPostEntityByUser_Teacher(of);
+    }
 }

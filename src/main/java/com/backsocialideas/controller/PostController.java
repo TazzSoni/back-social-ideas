@@ -100,4 +100,9 @@ public class PostController {
     public void deletePost(@PathVariable("id") Long id) {
         handler.deletePost(id);
     }
+
+    @GetMapping("/post/teacher/pageable")
+    public ResponseEntity<Page<PostOutDTO>> postsGetAllTeacherPageable(@RequestParam int page, @RequestParam int size) {
+        return new ResponseEntity<>(handler.postsGetAllTeacherPageable(page, size), HttpStatus.OK);
+    }
 }

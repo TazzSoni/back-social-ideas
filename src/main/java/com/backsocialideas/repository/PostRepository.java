@@ -22,4 +22,7 @@ public interface PostRepository extends JpaRepository<PostEntity, Long> {
 
     @Query(value = "select * from post where oid_version in :userIds", nativeQuery = true)
     Page<PostEntity> findByUserIdIn(Pageable page, List<Long> userIds);
+
+    @Query(value = "select * from post where oid_version in (select oid_version from users where teacher = true )", nativeQuery = true)
+    Page<PostEntity> findAllByPostEntityByUser_Teacher(Pageable page);
 }

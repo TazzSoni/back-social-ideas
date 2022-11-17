@@ -357,4 +357,8 @@ public class Handler {
     public RateDTO getRateuser(Long userid) {
         return userService.getRateUser(userid);
     }
+
+    public Page<PostOutDTO> postsGetAllTeacherPageable(int page, int size) {
+            return converter.convertPagePostEntityToOutDTO(postService.getAllTeacherPageable(PageRequest.of(page, size)));
+    }
 }
