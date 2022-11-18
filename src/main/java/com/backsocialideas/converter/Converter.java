@@ -83,9 +83,12 @@ public class Converter {
         commentOutDTO.setRate(rate);
     }
 
-    public PostEntity convertPostInDTOToEntity(PostInDTO postInDTO) {
+    public PostEntity convertPostInDTOToEntity(PostInDTO postInDTO) throws IOException {
         PostEntity entity = mapper.map(postInDTO, PostEntity.class);
         entity.setTags(setTags(postInDTO.getTags()));
+        entity.setFile(
+                (postInDTO.getFile() == null) ? null : setProfileImage(postInDTO.getFile())
+        );
         return entity;
     }
 
@@ -100,6 +103,7 @@ public class Converter {
         postOutDTO.setUser(convertUserEntityToPostUserDTO(owner));
         setRatePostOutDTo(postOutDTO, entity);
         postOutDTO.setTags(setTagsOutDTO(entity.getTags()));
+        postOutDTO.setFileId((entity.getFile() == null) ? null : String.valueOf(entity.getFile().getId()));
         return postOutDTO;
     }
 
@@ -172,6 +176,7 @@ public class Converter {
                 .build());
         outDTO.setComment(entity.getComment().stream().map(this::convertCommentEntityToDTO).collect(Collectors.toList()));
         outDTO.setTags(setTagsOutDTO(entity.getTags()));
+        outDTO.setFileId((entity.getFile() == null) ? null : String.valueOf(entity.getFile().getId()));
         return outDTO;
     }
 

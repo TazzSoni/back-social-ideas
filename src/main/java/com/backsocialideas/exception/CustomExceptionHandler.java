@@ -8,6 +8,7 @@ import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
@@ -25,6 +26,7 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
     private static final String BAD_REQUEST = "BAD_REQUEST";
     private static final String NOT_FOUND = "NOT_FOUND";
     private static final String INVALID_LOGIN = "INVALID_LOGIN";
+    private static final String FILE_MAX_SIZE = "FILE WITH MORE THEN 10MB";
     private static final String UNPROCESSABLE_ENTITY = "UNPROCESSABLE_ENTITY";
 
     @ExceptionHandler(Exception.class)
@@ -74,5 +76,16 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
     }
 
+    @ExceptionHandler(IllegalStateException.class)
+    public final ResponseEntity<ErrorResponse> handleIllegalStateException(IllegalStateException ex, WebRequest request){
+        ErrorResponse error = new ErrorResponse(FILE_MAX_SIZE, Collections.singletonList(ex.getLocalizedMessage()));
+        return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(HttpClientErrorException.UnsupportedMediaType.class)
+    public final ResponseEntity<ErrorResponse> handleUnsupportedMediaType(HttpClientErrorException.UnsupportedMediaType ex, WebRequest request){
+        ErrorResponse error = new ErrorResponse(FILE_MAX_SIZE, Collections.singletonList(ex.getLocalizedMessage()));
+        return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
+    }
 
 }

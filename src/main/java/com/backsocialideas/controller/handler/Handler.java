@@ -65,7 +65,7 @@ public class Handler {
     }
 
     @Transactional
-    public PostOutDTO createPost(Long ownerId, PostInDTO postInDTO) {
+    public PostOutDTO createPost(Long ownerId, PostInDTO postInDTO) throws IOException {
         PostEntity postEntity = postService.save(ownerId, converter.convertPostInDTOToEntity(postInDTO));
         userService.addPost(ownerId, postEntity);
         return converter.convertPostEntityToOutDTOWithUserId(userService.getOne(ownerId), postEntity);
@@ -299,7 +299,7 @@ public class Handler {
     }
 
     @Transactional
-    public PostOutDTO updatePost(Long postId, PostInDTO postUpdateDTO) {
+    public PostOutDTO updatePost(Long postId, PostInDTO postUpdateDTO) throws IOException {
         return converter.convertPostEntityToOutDTO(postService.update(postId, postUpdateDTO));
     }
 

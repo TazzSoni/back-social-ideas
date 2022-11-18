@@ -1,5 +1,6 @@
 package com.backsocialideas.service;
 
+import com.backsocialideas.converter.Converter;
 import com.backsocialideas.dto.PostInDTO;
 import com.backsocialideas.dto.enums.Stage;
 import com.backsocialideas.exception.BadRequestException;
@@ -13,6 +14,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -24,6 +26,7 @@ public class PostService {
     private final UserService userService;
     private final LikeDislikeService likeDislikeService;
     private final AsksForCooworkerService asksForCooworkerService;
+    private final Converter converter;
 
     public PostEntity save(Long ownerId, PostEntity entity) {
         entity.setStage(Stage.POSTED);
@@ -94,7 +97,7 @@ public class PostService {
     }
 
 
-    public PostEntity update(Long postId, PostInDTO postUpdateDTO) {
+    public PostEntity update(Long postId, PostInDTO postUpdateDTO) throws IOException {
         PostEntity postEntity = repository.getOne(postId);
         if (postUpdateDTO.getPost() != null) {
             postEntity.setPost(postUpdateDTO.getPost());
@@ -104,6 +107,9 @@ public class PostService {
         }
         if (postUpdateDTO.getTags() != null){
             postEntity.setTags(setPostTags(postUpdateDTO.getTags()));
+        }
+        if(postUpdateDTO.getFile() != null){
+            postEntity.setFile(converter.setProfileImage(postUpdateDTO.getFile()));
         }
         return repository.save(postEntity);
     }

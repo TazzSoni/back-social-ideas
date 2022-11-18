@@ -11,9 +11,11 @@ import javassist.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -25,15 +27,25 @@ public class PostController {
 
     private final Handler handler;
 
-    @PostMapping("/post/{ownerId}")
-    public ResponseEntity<PostOutDTO> createPost(@PathVariable("ownerId") Long ownerId, @RequestBody PostInDTO postInDTO) {
+    @PostMapping(path = "/post/{ownerId}", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
+    public ResponseEntity<PostOutDTO> createPost(@PathVariable("ownerId") Long ownerId, @ModelAttribute PostInDTO postInDTO) throws IOException {
         return new ResponseEntity<>(handler.createPost(ownerId, postInDTO), HttpStatus.CREATED);
     }
 
-    @PutMapping("/post/{postId}")
-    public ResponseEntity<PostOutDTO> updatePost(@PathVariable("postId") Long postId, @RequestBody PostInDTO postUpdateDTO){
-        return new ResponseEntity<>(handler.updatePost(postId, postUpdateDTO), HttpStatus.OK);
+    @PostMapping(path = "/post/update/{postId}", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
+    public ResponseEntity<PostOutDTO> updatePost(@PathVariable("postId") Long postId, @ModelAttribute PostInDTO postInDTO) throws IOException {
+        return new ResponseEntity<>(handler.updatePost(postId, postInDTO), HttpStatus.CREATED);
     }
+
+    @GetMapping("/post/file/{fileId}")
+    public ResponseEntity<byte[]> getPostFile(@PathVariable("fileId") Long fileId) {
+        return handler.getFileResponse(fileId);
+    }
+
+//    @PostMapping(path ="/postw/{postId}", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
+//    public ResponseEntity<PostOutDTO> updatePost(@PathVariable("postId") Long postId, @ModelAttribute PostInDTO postUpdateDTO) throws IOException {
+//        return new ResponseEntity<>(handler.updatePost(postId, postUpdateDTO), HttpStatus.OK);
+//    }
 
     @PatchMapping("/post/{postId}")
     public ResponseEntity<PostOutDTO> updateStatusPost(@PathVariable("postId") Long postId, Stage stage){
