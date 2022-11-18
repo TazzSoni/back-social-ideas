@@ -34,7 +34,7 @@ public class PostController {
 
     @PostMapping(path = "/post/update/{postId}", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
     public ResponseEntity<PostOutDTO> updatePost(@PathVariable("postId") Long postId, @ModelAttribute PostInDTO postInDTO) throws IOException {
-        return new ResponseEntity<>(handler.updatePost(postId, postInDTO), HttpStatus.CREATED);
+        return new ResponseEntity<>(handler.updatePost(postId, postInDTO), HttpStatus.OK);
     }
 
     @GetMapping("/post/file/{fileId}")
