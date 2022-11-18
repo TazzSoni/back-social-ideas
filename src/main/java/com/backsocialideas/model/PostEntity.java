@@ -34,6 +34,9 @@ public class PostEntity implements Serializable {
     @Column(name = "des_stage")
     private Stage stage;
 
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private ProfileImageEntity file;
+
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "oid_version_post")
     private List<Tags> tags;
