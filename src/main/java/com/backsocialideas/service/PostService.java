@@ -27,6 +27,7 @@ public class PostService {
     private final LikeDislikeService likeDislikeService;
     private final AsksForCooworkerService asksForCooworkerService;
     private final Converter converter;
+    private final FileService fileService;
 
     public PostEntity save(Long ownerId, PostEntity entity) {
         entity.setStage(Stage.POSTED);
@@ -105,11 +106,18 @@ public class PostService {
         if (postUpdateDTO.getTitulo() != null) {
             postEntity.setTitulo(postUpdateDTO.getTitulo());
         }
-        if (postUpdateDTO.getTags() != null){
+        if (postUpdateDTO.getTags() == null){
+            postEntity.setTags(null);
+        } else {
             postEntity.setTags(setPostTags(postUpdateDTO.getTags()));
         }
         if(postUpdateDTO.getFile() != null){
             postEntity.setFile(converter.setProfileImage(postUpdateDTO.getFile()));
+        }else{
+            if ((postEntity.getFile() != null)) {
+                fileService.deleteById(postEntity.getFile().getId());
+            }
+            postEntity.setFile(null);
         }
         return repository.save(postEntity);
     }

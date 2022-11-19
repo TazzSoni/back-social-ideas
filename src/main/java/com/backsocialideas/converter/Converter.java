@@ -186,6 +186,9 @@ public class Converter {
     }
 
     private List<String> setTagsOutDTO(List<Tags> tags) {
+        if(tags == null){
+            return null;
+        }
         List<String> tagsOutDTO = new ArrayList<>();
         tags.stream().forEach(t -> tagsOutDTO.add(t.getDesTag()));
         return tagsOutDTO;

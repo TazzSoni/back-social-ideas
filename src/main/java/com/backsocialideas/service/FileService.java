@@ -15,4 +15,8 @@ public class FileService {
     public ProfileImageEntity getProfileImageById(Long imageId) {
         return profileImageRepository.findById(imageId).orElseThrow(() -> new RecordNotFoundException("Imagem de perfil não encontrada!"));
     }
+
+    public void deleteById(Long id) {
+        profileImageRepository.deleteById(id);
+    }
 }
