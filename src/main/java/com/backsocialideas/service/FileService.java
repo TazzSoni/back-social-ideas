@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class ProfileImageService {
+public class FileService {
 
     private final ProfileImageRepository profileImageRepository;
 

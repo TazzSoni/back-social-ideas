@@ -2,6 +2,7 @@ package com.backsocialideas.converter;
 
 import com.backsocialideas.dto.*;
 import com.backsocialideas.model.*;
+import com.backsocialideas.service.FileService;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
@@ -21,6 +22,7 @@ import java.util.stream.Collectors;
 public class Converter {
 
     private final ModelMapper mapper;
+    private final FileService fileService;
 
     public UserOutDTO convertUserEntityToOutDTO(UserEntity user) {
         UserOutDTO outDTO = mapper.map(user, UserOutDTO.class);
@@ -104,6 +106,7 @@ public class Converter {
         setRatePostOutDTo(postOutDTO, entity);
         postOutDTO.setTags(setTagsOutDTO(entity.getTags()));
         postOutDTO.setFileId((entity.getFile() == null) ? null : String.valueOf(entity.getFile().getId()));
+        postOutDTO.setFileName((entity.getFile() == null) ? null : String.valueOf(entity.getFile().getName()));
         return postOutDTO;
     }
 
@@ -169,6 +172,7 @@ public class Converter {
     }
 
     public PostOutDTO convertPostEntityToOutDTO(PostEntity entity) {
+        ProfileImageEntity file = (entity.getFile() == null) ? null : fileService.getProfileImageById(entity.getFile().getId());
         PostOutDTO outDTO = mapper.map(entity, PostOutDTO.class);
         outDTO.setRate(RateDTO.builder()
                 .like(entity.getLikes().size())
@@ -176,7 +180,8 @@ public class Converter {
                 .build());
         outDTO.setComment(entity.getComment().stream().map(this::convertCommentEntityToDTO).collect(Collectors.toList()));
         outDTO.setTags(setTagsOutDTO(entity.getTags()));
-        outDTO.setFileId((entity.getFile() == null) ? null : String.valueOf(entity.getFile().getId()));
+        outDTO.setFileId((file == null) ? null : String.valueOf(entity.getFile().getId()));
+        outDTO.setFileName((file == null) ? null : String.valueOf(entity.getFile().getName()));
         return outDTO;
     }
 
