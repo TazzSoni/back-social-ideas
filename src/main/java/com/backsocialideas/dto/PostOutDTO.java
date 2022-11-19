@@ -21,5 +21,6 @@ public class PostOutDTO {
     private Stage stage;
     private RateDTO rate;
     private String fileId;
+    private String fileName;
     private List<CommentDTO> comment;
 }

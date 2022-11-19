@@ -14,6 +14,7 @@ import java.util.List;
 @AllArgsConstructor
 @EqualsAndHashCode
 @Entity
+@ToString
 @Table(name ="post")
 @SequenceGenerator(name = "post_seq", sequenceName = "seq_post_oid_version", allocationSize = 1)
 public class PostEntity implements Serializable {

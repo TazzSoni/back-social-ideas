@@ -32,7 +32,7 @@ public class Handler {
     private final CommentService commentService;
     private final PostService postService;
     private final LikeDislikeService likeDislikeService;
-    private final ProfileImageService profileImageService;
+    private final FileService fileService;
     private final AsksForCooworkerService asksForCooworkerService;
 
     @Transactional
@@ -288,7 +288,7 @@ public class Handler {
     }
 
     public ResponseEntity<byte[]> getFileResponse(Long imageId) {
-        ProfileImageEntity fileEntity = profileImageService.getProfileImageById(imageId);
+        ProfileImageEntity fileEntity = fileService.getProfileImageById(imageId);
 
         HttpHeaders header = new HttpHeaders();
         header.setContentType(MediaType.valueOf(fileEntity.getContentType()));
